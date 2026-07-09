@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,23 +12,25 @@ public class PlayerInput : MonoBehaviour
 
     private float moveValue;
     private Vector2 moveInput;
-    private Vector3 rotationDirection;
-    Rigidbody2D rb;
+    //private Vector3 rotationDirection;
+    Rigidbody rb;
     //movement
     InputAction moving;
     InputAction leftRotation;
     InputAction rightRotation;
     bool isMoving, isRotating;
+    
+    int rotationDirectionValue;
 
     //pickUp and Drop
-    private Rigidbody2D pickupObject;
+    private Rigidbody pickupObject;
     InputAction pickup;
     InputAction dropItem;
     InputAction Throw;
     [SerializeField] private float throwForce;
     [SerializeField] private float rayDistance;
     [SerializeField] private LayerMask PickupLayer;
-    [SerializeField] private FixedJoint2D pickupJoint;
+    [SerializeField] private FixedJoint pickupJoint;
 
     private void Awake()
     {
@@ -39,7 +42,7 @@ public class PlayerInput : MonoBehaviour
         pickup = InputManager.Instance.Controls.Player.PickUp;
         dropItem = InputManager.Instance.Controls.Player.DropItem;
         Throw = InputManager.Instance.Controls.Player.Throw;
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody>();
         
 
         moving.performed += ctx => Update();
@@ -80,7 +83,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (!isRotating)
         {
-            rb.linearVelocity = transform.up * moveValue * moveSpeed;
+            rb.linearVelocity = transform.forward * moveValue * moveSpeed;
             if (moveValue == 0)
             {
                 Debug.Log("STOP");
@@ -89,7 +92,7 @@ public class PlayerInput : MonoBehaviour
         }
         else if (!isMoving)
         {
-            transform.Rotate(rotationDirection * (rotationSpeed * 10f) * Time.deltaTime);
+            transform.Rotate(Vector3.up * (rotationDirectionValue * rotationSpeed * 10f) * Time.deltaTime);
             rb.linearVelocity = Vector2.zero;
         }
 
@@ -110,12 +113,12 @@ public class PlayerInput : MonoBehaviour
     }
     private void RotateLeft(InputAction.CallbackContext context)
     {
-        rotationDirection = Vector3.forward;
+        rotationDirectionValue = -1;
         isRotating = true;
     }
     private void RotateRight(InputAction.CallbackContext context)
     {
-        rotationDirection = Vector3.back;
+        rotationDirectionValue = 1;
         isRotating = true;
     }
 
@@ -128,13 +131,13 @@ public class PlayerInput : MonoBehaviour
     {
         if (pickupObject != null) return;
         Debug.Log("Try pickup");
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, rayDistance, PickupLayer);
-        if (hit.collider != null)
+        
+        if (Physics.Raycast(transform.position, transform.up, out RaycastHit hit, rayDistance, PickupLayer))
         {
             Debug.Log("Hit");
-            pickupJoint = GetComponent<FixedJoint2D>();
+            pickupJoint = gameObject.AddComponent<FixedJoint>();
             pickupObject = hit.rigidbody;
-            //pickupObject.bodyType = RigidbodyType2D.Dynamic;
+           
             pickupJoint.connectedBody = pickupObject;
         }
     }
@@ -144,7 +147,7 @@ public class PlayerInput : MonoBehaviour
         if (pickupObject == null) return;
         Debug.Log("Drop");
         pickupJoint.connectedBody = null;
-        //pickupObject.bodyType = RigidbodyType2D.Kinematic;
+        Destroy(pickupJoint);
         pickupObject = null;
     }
 
@@ -153,7 +156,8 @@ public class PlayerInput : MonoBehaviour
         if (pickupObject == null) return;
         Debug.Log("Throw");
         pickupJoint.connectedBody = null;
-        pickupObject.AddForce(transform.up * throwForce, ForceMode2D.Impulse);
+        Destroy(pickupJoint);
+        pickupObject.AddForce(transform.up * throwForce, ForceMode.Impulse);
         pickupObject = null;
     }
 }

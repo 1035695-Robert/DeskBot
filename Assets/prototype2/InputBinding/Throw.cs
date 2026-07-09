@@ -13,4 +13,15 @@ public class Throw : KeyBinding
 
         RightRotateAction.Enable();
     }
+
+    public override void OnNullifyBind()
+    {
+        InputAction RightRotateAction = InputManager.Instance.Controls.Player.Throw;
+
+        RightRotateAction.Disable();
+
+        RightRotateAction.ApplyBindingOverride(0, "");
+
+        RightRotateAction.Enable();
+    }
 }

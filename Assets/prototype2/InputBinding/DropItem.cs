@@ -12,6 +12,16 @@ public class DropItem : KeyBinding
         LeftRotateAction.ApplyBindingOverride(0, keyPath);
 
         LeftRotateAction.Enable();
+    }
 
+    public override void OnNullifyBind()
+    {
+        InputAction LeftRotateAction = InputManager.Instance.Controls.Player.DropItem;
+
+        LeftRotateAction.Disable();
+
+        LeftRotateAction.ApplyBindingOverride(0, "");
+
+        LeftRotateAction.Enable();
     }
 }

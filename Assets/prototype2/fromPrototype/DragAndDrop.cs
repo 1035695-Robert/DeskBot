@@ -47,9 +47,7 @@ public class DragAndDrop : MonoBehaviour
         {
             Debug.Log("hello");
             
-            KeyBinding bind = result.GetComponent<KeyBinding>();
-            //bind.SetKey(clickedObject);
-
+            KeyBinding bind = result.GetComponent<KeyBinding>(); 
         }
 
         col.isTrigger = false;

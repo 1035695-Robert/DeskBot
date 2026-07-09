@@ -14,4 +14,15 @@ public class PickUp : KeyBinding
         LeftRotateAction.Enable();
 
     }
+
+    public override void OnNullifyBind()
+    {
+        InputAction LeftRotateAction = InputManager.Instance.Controls.Player.PickUp;
+
+        LeftRotateAction.Disable();
+
+        LeftRotateAction.ApplyBindingOverride(0, "");
+
+        LeftRotateAction.Enable();
+    }
 }

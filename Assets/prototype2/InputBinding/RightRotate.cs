@@ -12,6 +12,16 @@ public class RightRotate : KeyBinding
         RightRotateAction.ApplyBindingOverride(0, keyPath);
 
         RightRotateAction.Enable();
+    }
 
+    public override void OnNullifyBind()
+    {
+        InputAction RightRotateAction = InputManager.Instance.Controls.Player.RightRotate;
+
+        RightRotateAction.Disable();
+
+        RightRotateAction.ApplyBindingOverride(0, "");
+
+        RightRotateAction.Enable();
     }
 }

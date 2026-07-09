@@ -13,4 +13,15 @@ public class LeftRotate : KeyBinding
 
         LeftRotateAction.Enable();
     }
+
+    public override void OnNullifyBind()
+    {
+        InputAction LeftRotateAction = InputManager.Instance.Controls.Player.LeftRotate;
+
+        LeftRotateAction.Disable();
+
+        LeftRotateAction.ApplyBindingOverride(0, "");
+
+        LeftRotateAction.Enable();
+    }
 }

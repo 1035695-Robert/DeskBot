@@ -18,4 +18,19 @@ public class Backwards : KeyBinding
             }
         }
     }
+
+    public override void OnNullifyBind()
+    {
+        InputAction BackwardsAction = InputManager.Instance.Controls.Player.Move;
+        for (int i = 0; i < BackwardsAction.bindings.Count; i++)
+        {
+            if (BackwardsAction.bindings[i].isPartOfComposite && BackwardsAction.bindings[i].name == "negative")
+            {
+                BackwardsAction.Disable();
+                BackwardsAction.ApplyBindingOverride(i, "");
+                BackwardsAction.Enable();
+                break;
+            }
+        }
+    }
 }

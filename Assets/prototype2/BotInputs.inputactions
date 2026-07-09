@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "name": "Prototype2",
+    "name": "BotInputs",
     "maps": [
         {
             "name": "Player",
@@ -187,6 +187,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Camera",
+            "id": "9caea66d-0b08-4300-9828-ac5391dbc407",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "11799a1f-2e40-4111-b6a5-e760b93d5266",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3c830aa8-93be-4a87-af2c-e53da0517397",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
