@@ -1,7 +1,9 @@
+using System;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 
 public class PlayerInput : MonoBehaviour
@@ -19,7 +21,7 @@ public class PlayerInput : MonoBehaviour
     InputAction leftRotation;
     InputAction rightRotation;
     bool isMoving, isRotating;
-    
+
     int rotationDirectionValue;
 
     //pickUp and Drop
@@ -32,8 +34,17 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] private LayerMask PickupLayer;
     [SerializeField] private FixedJoint pickupJoint;
 
-    private void Awake()
+    //HANDS
+    [SerializeField] private GameObject hands;
+    [Range(-60, 0)]
+    private float handAngle;
+    private float handRotationValue;
+    InputAction handsRaise;
+    InputAction handsLower;
+
+    private void Start()
     {
+        Debug.Log("BOT");
         moving = InputManager.Instance.Controls.Player.Move;
 
         leftRotation = InputManager.Instance.Controls.Player.LeftRotate;
@@ -42,13 +53,12 @@ public class PlayerInput : MonoBehaviour
         pickup = InputManager.Instance.Controls.Player.PickUp;
         dropItem = InputManager.Instance.Controls.Player.DropItem;
         Throw = InputManager.Instance.Controls.Player.Throw;
-        rb = GetComponent<Rigidbody>();
-        
 
-        moving.performed += ctx => Update();
-    }
-    private void OnEnable()
-    {
+        handsRaise = InputManager.Instance.Controls.Player.Hands;
+        handsLower = InputManager.Instance.Controls.Player.Hands;
+
+        rb = GetComponent<Rigidbody>();
+
         moving.performed += Moving;
         moving.canceled += StopMoving;
 
@@ -61,6 +71,9 @@ public class PlayerInput : MonoBehaviour
         pickup.performed += PickUpItem;
         dropItem.performed += DropItem;
         Throw.performed += ThrowItem;
+
+        handsRaise.performed += RaiseHands;
+        handsRaise.canceled += RaiseHands;
     }
 
 
@@ -81,9 +94,18 @@ public class PlayerInput : MonoBehaviour
     }
     private void Update()
     {
+        Movement();
+        HandAngle();
+
+
+    }
+
+    void Movement()
+    {
         if (!isRotating)
         {
             rb.linearVelocity = transform.forward * moveValue * moveSpeed;
+            //rb.AddForce((transform.forward * moveValue) * moveSpeed);
             if (moveValue == 0)
             {
                 Debug.Log("STOP");
@@ -95,11 +117,15 @@ public class PlayerInput : MonoBehaviour
             transform.Rotate(Vector3.up * (rotationDirectionValue * rotationSpeed * 10f) * Time.deltaTime);
             rb.linearVelocity = Vector2.zero;
         }
+    }
 
+    void HandAngle()
+    {
+        hands.transform.Rotate(Vector3.right * (handRotationValue * rotationSpeed * 10f) * Time.deltaTime);
     }
     private void Moving(InputAction.CallbackContext context)
     {
-       
+
         moveValue = context.ReadValue<float>();
 
         isMoving = true;
@@ -109,7 +135,6 @@ public class PlayerInput : MonoBehaviour
     {
         moveValue = 0;
         isMoving = false;
-
     }
     private void RotateLeft(InputAction.CallbackContext context)
     {
@@ -131,13 +156,13 @@ public class PlayerInput : MonoBehaviour
     {
         if (pickupObject != null) return;
         Debug.Log("Try pickup");
-        
-        if (Physics.Raycast(transform.position, transform.up, out RaycastHit hit, rayDistance, PickupLayer))
+
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, rayDistance, PickupLayer))
         {
             Debug.Log("Hit");
-            pickupJoint = gameObject.AddComponent<FixedJoint>();
+            pickupJoint = hands.AddComponent<FixedJoint>();
             pickupObject = hit.rigidbody;
-           
+
             pickupJoint.connectedBody = pickupObject;
         }
     }
@@ -150,15 +175,21 @@ public class PlayerInput : MonoBehaviour
         Destroy(pickupJoint);
         pickupObject = null;
     }
-
     private void ThrowItem(InputAction.CallbackContext context)
     {
         if (pickupObject == null) return;
         Debug.Log("Throw");
         pickupJoint.connectedBody = null;
         Destroy(pickupJoint);
-        pickupObject.AddForce(transform.up * throwForce, ForceMode.Impulse);
+        pickupObject.AddForce(hands.transform.forward * throwForce, ForceMode.Impulse);
         pickupObject = null;
+        hands.transform.Rotate(Vector3.zero);
     }
+
+    private void RaiseHands(InputAction.CallbackContext context)
+    {
+        handRotationValue = context.ReadValue<float>();
+    }
+    
 }
 

@@ -163,6 +163,15 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hands"",
+                    ""type"": ""Value"",
+                    ""id"": ""c3da7c7a-e923-4d82-bce9-17863d956008"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -275,6 +284,39 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""eee613a9-204f-4c51-9889-59992f06030f"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hands"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""3e31aa10-f43d-44dc-bbbd-ebfeaf3c5a10"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hands"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""1ae0eb75-e054-4c45-a276-5052fe96fde6"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hands"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -319,6 +361,7 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
         m_Player_DropItem = m_Player.FindAction("DropItem", throwIfNotFound: true);
         m_Player_DisplayToggle = m_Player.FindAction("DisplayToggle", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
+        m_Player_Hands = m_Player.FindAction("Hands", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Newaction = m_Camera.FindAction("New action", throwIfNotFound: true);
@@ -411,6 +454,7 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_DropItem;
     private readonly InputAction m_Player_DisplayToggle;
     private readonly InputAction m_Player_Throw;
+    private readonly InputAction m_Player_Hands;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -454,6 +498,10 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Throw".
         /// </summary>
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Hands".
+        /// </summary>
+        public InputAction @Hands => m_Wrapper.m_Player_Hands;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -504,6 +552,9 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
             @Throw.started += instance.OnThrow;
             @Throw.performed += instance.OnThrow;
             @Throw.canceled += instance.OnThrow;
+            @Hands.started += instance.OnHands;
+            @Hands.performed += instance.OnHands;
+            @Hands.canceled += instance.OnHands;
         }
 
         /// <summary>
@@ -539,6 +590,9 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
             @Throw.started -= instance.OnThrow;
             @Throw.performed -= instance.OnThrow;
             @Throw.canceled -= instance.OnThrow;
+            @Hands.started -= instance.OnHands;
+            @Hands.performed -= instance.OnHands;
+            @Hands.canceled -= instance.OnHands;
         }
 
         /// <summary>
@@ -731,6 +785,13 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnThrow(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Hands" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHands(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Camera" which allows adding and removing callbacks.
