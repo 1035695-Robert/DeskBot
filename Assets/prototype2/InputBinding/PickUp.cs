@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PickUp : KeyBinding
 {
-    public override void Binding(string keyPath)
+    protected override void Binding(string keyPath)
     {
         InputAction LeftRotateAction = InputManager.Instance.Controls.Player.PickUp;
 
@@ -17,6 +17,8 @@ public class PickUp : KeyBinding
 
     public override void OnNullifyBind()
     {
+        base.OnNullifyBind();
+        
         InputAction LeftRotateAction = InputManager.Instance.Controls.Player.PickUp;
 
         LeftRotateAction.Disable();

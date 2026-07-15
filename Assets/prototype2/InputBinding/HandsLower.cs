@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class HandsLower : KeyBinding
-{    public override void Binding(string keyPath)
+{
+    protected override void Binding(string keyPath)
     {
         InputAction LowerHandAction = InputManager.Instance.Controls.Player.Hands;
         for (int i = 0; i < LowerHandAction.bindings.Count; i++)
@@ -20,6 +21,7 @@ public class HandsLower : KeyBinding
 
     public override void OnNullifyBind()
     {
+        base.OnNullifyBind();
         InputAction LowerHandAction = InputManager.Instance.Controls.Player.Hands;
         for (int i = 0; i < LowerHandAction.bindings.Count; i++)
         {

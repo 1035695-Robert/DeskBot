@@ -4,14 +4,15 @@ using UnityEngine.EventSystems;
 
 
 
-public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler, IRemoveKey
 {
 
 
     private Vector3 startPosition;
+    [SerializeField] private GameObject inventory;
     private Collider2D col;
     public GameObject currentSlot;
-    public GameObject PreviousSlot;
+    public GameObject previousSlot;
 
     private void Start()
     {
@@ -24,7 +25,7 @@ public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragH
         transform.position = Input.mousePosition;
         if (currentSlot != null)
         {
-            PreviousSlot = currentSlot;
+            previousSlot = currentSlot;
         }
     }
 
@@ -39,16 +40,26 @@ public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragH
 
         if (hitCollider != null && hitCollider.TryGetComponent(out IKeyDropSlot keyDropSlot))
         {
-            currentSlot = hitCollider.gameObject;
-            keyDropSlot.OnKeyDrop(this, gameObject.name);
-            if(PreviousSlot != null && PreviousSlot.TryGetComponent(out IKeyDropSlot RemoveBnding))
+            currentSlot = hitCollider.gameObject;   
+            if(previousSlot != null && previousSlot.TryGetComponent(out IKeyDropSlot RemoveBnding))
             {
                 RemoveBnding.OnNullifyBind();
+                previousSlot = null;
+                
             }
+            keyDropSlot.OnKeyDrop(this, gameObject.name);
         }
         else
         {
             transform.position = startPosition;
         }
+    }
+
+
+    public void OnKeyRemoval(GameObject key)
+    {
+        key.transform.SetParent(inventory.transform);
+        currentSlot = null;
+       
     }
 }

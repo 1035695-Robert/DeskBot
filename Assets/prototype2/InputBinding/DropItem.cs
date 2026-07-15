@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class DropItem : KeyBinding
 {
-    public override void Binding(string keyPath)
+    protected override void Binding(string keyPath)
     {
         InputAction LeftRotateAction = InputManager.Instance.Controls.Player.DropItem;
 
@@ -16,6 +16,8 @@ public class DropItem : KeyBinding
 
     public override void OnNullifyBind()
     {
+        base.OnNullifyBind();
+        
         InputAction LeftRotateAction = InputManager.Instance.Controls.Player.DropItem;
 
         LeftRotateAction.Disable();

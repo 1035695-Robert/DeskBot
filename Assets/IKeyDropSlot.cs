@@ -6,3 +6,7 @@ public interface IKeyDropSlot
     void OnNullifyBind();
 }
 
+public interface IRemoveKey
+{
+    void OnKeyRemoval(GameObject key);
+}

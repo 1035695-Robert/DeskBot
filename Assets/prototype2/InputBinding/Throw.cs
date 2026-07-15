@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class Throw : KeyBinding
 {
-    public override void Binding(string keyPath)
+    protected override void Binding(string keyPath)
     {
         InputAction RightRotateAction = InputManager.Instance.Controls.Player.Throw;
 
@@ -16,6 +16,7 @@ public class Throw : KeyBinding
 
     public override void OnNullifyBind()
     {
+        base.OnNullifyBind();
         InputAction RightRotateAction = InputManager.Instance.Controls.Player.Throw;
 
         RightRotateAction.Disable();

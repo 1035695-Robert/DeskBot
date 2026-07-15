@@ -3,25 +3,35 @@ using UnityEngine.InputSystem;
 
 public class LeftRotate : KeyBinding
 {
-    public override void Binding(string keyPath)
+    protected override void Binding(string keyPath)
     {
-        InputAction LeftRotateAction = InputManager.Instance.Controls.Player.LeftRotate;
-
-        LeftRotateAction.Disable();
-
-        LeftRotateAction.ApplyBindingOverride(0, keyPath);
-
-        LeftRotateAction.Enable();
+        InputAction leftRotateAction = InputManager.Instance.Controls.Player.Rotate;
+        for (int i = 0; i < leftRotateAction.bindings.Count; i++)
+        {
+            if (leftRotateAction.bindings[i].isPartOfComposite && leftRotateAction.bindings[i].name == "positive")
+            {
+                leftRotateAction.Disable();
+                leftRotateAction.ApplyBindingOverride(i, keyPath);
+                Debug.Log($"{leftRotateAction.bindings[i].name} rebound to {keyPath}");
+                leftRotateAction.Enable();
+                break;
+            }
+        }
     }
 
     public override void OnNullifyBind()
     {
-        InputAction LeftRotateAction = InputManager.Instance.Controls.Player.LeftRotate;
-
-        LeftRotateAction.Disable();
-
-        LeftRotateAction.ApplyBindingOverride(0, "");
-
-        LeftRotateAction.Enable();
+        base.OnNullifyBind();
+        InputAction leftRotateAction = InputManager.Instance.Controls.Player.Rotate;
+        for (int i = 0; i < leftRotateAction.bindings.Count; i++)
+        {
+            if (leftRotateAction.bindings[i].isPartOfComposite && leftRotateAction.bindings[i].name == "positive")
+            {
+                leftRotateAction.Disable();
+                leftRotateAction.ApplyBindingOverride(i, "");
+                leftRotateAction.Enable();
+                break;
+            }
+        }
     }
 }

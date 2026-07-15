@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class Forwards : KeyBinding
 {
-    public override void Binding(string keyPath)
+    protected override void Binding(string keyPath)
     {
        
         InputAction ForwardAction = InputManager.Instance.Controls.Player.Move;
@@ -22,6 +22,7 @@ public class Forwards : KeyBinding
 
     public override void OnNullifyBind()
     {
+        base.OnNullifyBind();
         InputAction ForwardAction = InputManager.Instance.Controls.Player.Move;
         for (int i = 0; i < ForwardAction.bindings.Count; i++)
         {

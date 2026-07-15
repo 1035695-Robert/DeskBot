@@ -1,9 +1,5 @@
-using System;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 
 public class PlayerInput : MonoBehaviour
@@ -13,16 +9,19 @@ public class PlayerInput : MonoBehaviour
 
 
     private float moveValue;
+
     private Vector2 moveInput;
+
     //private Vector3 rotationDirection;
     Rigidbody rb;
+
     //movement
     InputAction moving;
-    InputAction leftRotation;
+    InputAction rotateAction;
     InputAction rightRotation;
     bool isMoving, isRotating;
 
-    int rotationDirectionValue;
+    float rotationDirectionValue;
 
     //pickUp and Drop
     private Rigidbody pickupObject;
@@ -36,37 +35,43 @@ public class PlayerInput : MonoBehaviour
 
     //HANDS
     [SerializeField] private GameObject hands;
-    [Range(-60, 0)]
-    private float handAngle;
+    [SerializeField] private GameObject handView;
+
+    [SerializeField] private float minHandAngle = -90;
+    [SerializeField] private float maxHandAngle = 0f;
+
     private float handRotationValue;
     InputAction handsRaise;
-    InputAction handsLower;
+    private float currentHandRotation;
+
+
+    //horn beep
+    private InputAction hornBeep;
 
     private void Start()
     {
         Debug.Log("BOT");
         moving = InputManager.Instance.Controls.Player.Move;
 
-        leftRotation = InputManager.Instance.Controls.Player.LeftRotate;
-        rightRotation = InputManager.Instance.Controls.Player.RightRotate;
+        rotateAction = InputManager.Instance.Controls.Player.Rotate;
+
 
         pickup = InputManager.Instance.Controls.Player.PickUp;
         dropItem = InputManager.Instance.Controls.Player.DropItem;
         Throw = InputManager.Instance.Controls.Player.Throw;
 
         handsRaise = InputManager.Instance.Controls.Player.Hands;
-        handsLower = InputManager.Instance.Controls.Player.Hands;
+
+        hornBeep = InputManager.Instance.Controls.Player.Horn;
 
         rb = GetComponent<Rigidbody>();
 
         moving.performed += Moving;
-        moving.canceled += StopMoving;
+        moving.canceled += Moving;
 
-        leftRotation.performed += RotateLeft;
-        leftRotation.canceled += StopRotation;
+        rotateAction.performed += RotateAction;
+        rotateAction.canceled += RotateAction;
 
-        rightRotation.performed += RotateRight;
-        rightRotation.canceled += StopRotation;
 
         pickup.performed += PickUpItem;
         dropItem.performed += DropItem;
@@ -74,35 +79,39 @@ public class PlayerInput : MonoBehaviour
 
         handsRaise.performed += RaiseHands;
         handsRaise.canceled += RaiseHands;
-    }
 
+        hornBeep.performed += Beep;
+        hornBeep.canceled += Beep;
+    }
 
 
     private void OnDisable()
     {
         moving.performed -= Moving;
-        moving.canceled -= StopMoving;
+        moving.canceled -= Moving;
 
-        leftRotation.performed -= RotateLeft;
-        leftRotation.canceled -= StopRotation;
-        rightRotation.performed -= RotateRight;
-        rightRotation.canceled -= StopRotation;
+        rotateAction.performed -= RotateAction;
+       rotateAction.canceled -= RotateAction;
 
         pickup.performed -= PickUpItem;
         dropItem.performed -= DropItem;
 
+        handsRaise.performed -= RaiseHands;
+        handsRaise.canceled -= RaiseHands;
+
+        hornBeep.performed -= Beep;
+        hornBeep.canceled -= Beep;
     }
+
     private void Update()
     {
         Movement();
         HandAngle();
-
-
     }
 
     void Movement()
     {
-        if (!isRotating)
+        if (!isRotating && moveValue != 0)
         {
             rb.linearVelocity = transform.forward * moveValue * moveSpeed;
             //rb.AddForce((transform.forward * moveValue) * moveSpeed);
@@ -114,42 +123,50 @@ public class PlayerInput : MonoBehaviour
         }
         else if (!isMoving)
         {
+            if (rotationDirectionValue == 0) return;
             transform.Rotate(Vector3.up * (rotationDirectionValue * rotationSpeed * 10f) * Time.deltaTime);
+
             rb.linearVelocity = Vector2.zero;
         }
     }
 
     void HandAngle()
     {
-        hands.transform.Rotate(Vector3.right * (handRotationValue * rotationSpeed * 10f) * Time.deltaTime);
+        float nextRotation = currentHandRotation + (handRotationValue * rotationSpeed * 10f) * Time.deltaTime;
+
+        if (nextRotation >= minHandAngle && nextRotation <= maxHandAngle)
+        {
+            currentHandRotation = nextRotation;
+        }
+        else if (nextRotation < minHandAngle)
+        {
+            currentHandRotation = minHandAngle;
+        }
+        else if (nextRotation > maxHandAngle)
+        {
+            currentHandRotation = maxHandAngle;
+        }
+
+        hands.transform.localRotation = Quaternion.Euler(currentHandRotation, 0, 0);
     }
+
     private void Moving(InputAction.CallbackContext context)
     {
-
         moveValue = context.ReadValue<float>();
-
-        isMoving = true;
-
-    }
-    private void StopMoving(InputAction.CallbackContext context)
-    {
-        moveValue = 0;
-        isMoving = false;
-    }
-    private void RotateLeft(InputAction.CallbackContext context)
-    {
-        rotationDirectionValue = -1;
-        isRotating = true;
-    }
-    private void RotateRight(InputAction.CallbackContext context)
-    {
-        rotationDirectionValue = 1;
-        isRotating = true;
+        if (context.performed)
+            isMoving = true;
+        if (context.canceled)
+            isMoving = false;
     }
 
-    private void StopRotation(InputAction.CallbackContext context)
+
+    private void RotateAction(InputAction.CallbackContext context)
     {
-        isRotating = false;
+        rotationDirectionValue = context.ReadValue<float>();
+        if (context.performed)
+            isRotating = true;
+        if (context.canceled)
+            isRotating = false;
     }
 
     private void PickUpItem(InputAction.CallbackContext context)
@@ -157,12 +174,16 @@ public class PlayerInput : MonoBehaviour
         if (pickupObject != null) return;
         Debug.Log("Try pickup");
 
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, rayDistance, PickupLayer))
+        if (Physics.Raycast(hands.transform.position, hands.transform.forward, out RaycastHit hit, rayDistance,
+                PickupLayer))
         {
             Debug.Log("Hit");
             pickupJoint = hands.AddComponent<FixedJoint>();
             pickupObject = hit.rigidbody;
-
+            
+            hit.transform.rotation = hands.transform.rotation;
+            hit.transform.position = handView.transform.position + handView.transform.position * 0.01f + handView.transform.forward * 0.5f;
+            
             pickupJoint.connectedBody = pickupObject;
         }
     }
@@ -170,11 +191,15 @@ public class PlayerInput : MonoBehaviour
     private void DropItem(InputAction.CallbackContext context)
     {
         if (pickupObject == null) return;
+        pickupObject.useGravity = true;
         Debug.Log("Drop");
         pickupJoint.connectedBody = null;
         Destroy(pickupJoint);
+        pickupObject.WakeUp();
+        handView.transform.localPosition = new Vector3(0, 0, 0.75f);
         pickupObject = null;
     }
+
     private void ThrowItem(InputAction.CallbackContext context)
     {
         if (pickupObject == null) return;
@@ -190,6 +215,17 @@ public class PlayerInput : MonoBehaviour
     {
         handRotationValue = context.ReadValue<float>();
     }
-    
-}
 
+    private void Beep(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Debug.Log("Beep");
+        }
+
+        if (context.canceled)
+        {
+            Debug.Log("Beep Canceled");
+        }
+    }
+}

@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class HandsRaise : KeyBinding
 {
-    public override void Binding(string keyPath)
+    protected override void Binding(string keyPath)
     {
         InputAction RaiseHandAction = InputManager.Instance.Controls.Player.Hands;
         for (int i = 0; i < RaiseHandAction.bindings.Count; i++)
@@ -21,6 +21,7 @@ public class HandsRaise : KeyBinding
 
     public override void OnNullifyBind()
     {
+        base.OnNullifyBind();
         InputAction RaiseHandAction = InputManager.Instance.Controls.Player.Hands;
         for (int i = 0; i < RaiseHandAction.bindings.Count; i++)
         {

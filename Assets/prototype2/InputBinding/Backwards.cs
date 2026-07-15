@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class Backwards : KeyBinding
 {
-    public override void Binding(string keyPath)
+    protected override void Binding(string keyPath)
     {
         InputAction BackwardsAction = InputManager.Instance.Controls.Player.Move;
         for (int i = 0; i < BackwardsAction.bindings.Count; i++)
@@ -21,6 +21,7 @@ public class Backwards : KeyBinding
 
     public override void OnNullifyBind()
     {
+        base.OnNullifyBind();
         InputAction BackwardsAction = InputManager.Instance.Controls.Player.Move;
         for (int i = 0; i < BackwardsAction.bindings.Count; i++)
         {

@@ -102,31 +102,13 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Backwards"",
-                    ""type"": ""Button"",
-                    ""id"": ""f7025f5e-8f50-4551-adf2-a1753b61cde2"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""LeftRotate"",
-                    ""type"": ""Button"",
+                    ""name"": ""Rotate"",
+                    ""type"": ""Value"",
                     ""id"": ""54d689cf-1cf8-4d07-8470-5735b042e0a9"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""RightRotate"",
-                    ""type"": ""Button"",
-                    ""id"": ""cc93dcd1-2394-4c93-9d30-c3392ebaeb2d"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""PickUp"",
@@ -172,6 +154,15 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Horn"",
+                    ""type"": ""Button"",
+                    ""id"": ""f199c11b-4c8d-4f9f-aad3-fcddb4ee986d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -207,39 +198,6 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d1e19031-ab37-4ed4-9aa4-fdc68e5748bc"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Backwards"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""725819ab-5641-4e08-9894-3120cd487078"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LeftRotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""bb902d83-a4df-42bb-a327-437c052b9396"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RightRotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -317,6 +275,50 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Hands"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1da2934a-83ba-48be-9fdf-ae8f073239c4"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Horn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""74015c3f-cb25-434b-afe1-14cef7ee9773"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""66f05c98-b574-425b-922c-ad55bfe01fdb"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""6026c0ae-146c-457e-a5a3-1a689a9e79e9"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -354,14 +356,13 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Backwards = m_Player.FindAction("Backwards", throwIfNotFound: true);
-        m_Player_LeftRotate = m_Player.FindAction("LeftRotate", throwIfNotFound: true);
-        m_Player_RightRotate = m_Player.FindAction("RightRotate", throwIfNotFound: true);
+        m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_PickUp = m_Player.FindAction("PickUp", throwIfNotFound: true);
         m_Player_DropItem = m_Player.FindAction("DropItem", throwIfNotFound: true);
         m_Player_DisplayToggle = m_Player.FindAction("DisplayToggle", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
         m_Player_Hands = m_Player.FindAction("Hands", throwIfNotFound: true);
+        m_Player_Horn = m_Player.FindAction("Horn", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Newaction = m_Camera.FindAction("New action", throwIfNotFound: true);
@@ -447,14 +448,13 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Backwards;
-    private readonly InputAction m_Player_LeftRotate;
-    private readonly InputAction m_Player_RightRotate;
+    private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_PickUp;
     private readonly InputAction m_Player_DropItem;
     private readonly InputAction m_Player_DisplayToggle;
     private readonly InputAction m_Player_Throw;
     private readonly InputAction m_Player_Hands;
+    private readonly InputAction m_Player_Horn;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -471,17 +471,9 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Move => m_Wrapper.m_Player_Move;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Backwards".
+        /// Provides access to the underlying input action "Player/Rotate".
         /// </summary>
-        public InputAction @Backwards => m_Wrapper.m_Player_Backwards;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/LeftRotate".
-        /// </summary>
-        public InputAction @LeftRotate => m_Wrapper.m_Player_LeftRotate;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/RightRotate".
-        /// </summary>
-        public InputAction @RightRotate => m_Wrapper.m_Player_RightRotate;
+        public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         /// <summary>
         /// Provides access to the underlying input action "Player/PickUp".
         /// </summary>
@@ -502,6 +494,10 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Hands".
         /// </summary>
         public InputAction @Hands => m_Wrapper.m_Player_Hands;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Horn".
+        /// </summary>
+        public InputAction @Horn => m_Wrapper.m_Player_Horn;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -531,15 +527,9 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Backwards.started += instance.OnBackwards;
-            @Backwards.performed += instance.OnBackwards;
-            @Backwards.canceled += instance.OnBackwards;
-            @LeftRotate.started += instance.OnLeftRotate;
-            @LeftRotate.performed += instance.OnLeftRotate;
-            @LeftRotate.canceled += instance.OnLeftRotate;
-            @RightRotate.started += instance.OnRightRotate;
-            @RightRotate.performed += instance.OnRightRotate;
-            @RightRotate.canceled += instance.OnRightRotate;
+            @Rotate.started += instance.OnRotate;
+            @Rotate.performed += instance.OnRotate;
+            @Rotate.canceled += instance.OnRotate;
             @PickUp.started += instance.OnPickUp;
             @PickUp.performed += instance.OnPickUp;
             @PickUp.canceled += instance.OnPickUp;
@@ -555,6 +545,9 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
             @Hands.started += instance.OnHands;
             @Hands.performed += instance.OnHands;
             @Hands.canceled += instance.OnHands;
+            @Horn.started += instance.OnHorn;
+            @Horn.performed += instance.OnHorn;
+            @Horn.canceled += instance.OnHorn;
         }
 
         /// <summary>
@@ -569,15 +562,9 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Backwards.started -= instance.OnBackwards;
-            @Backwards.performed -= instance.OnBackwards;
-            @Backwards.canceled -= instance.OnBackwards;
-            @LeftRotate.started -= instance.OnLeftRotate;
-            @LeftRotate.performed -= instance.OnLeftRotate;
-            @LeftRotate.canceled -= instance.OnLeftRotate;
-            @RightRotate.started -= instance.OnRightRotate;
-            @RightRotate.performed -= instance.OnRightRotate;
-            @RightRotate.canceled -= instance.OnRightRotate;
+            @Rotate.started -= instance.OnRotate;
+            @Rotate.performed -= instance.OnRotate;
+            @Rotate.canceled -= instance.OnRotate;
             @PickUp.started -= instance.OnPickUp;
             @PickUp.performed -= instance.OnPickUp;
             @PickUp.canceled -= instance.OnPickUp;
@@ -593,6 +580,9 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
             @Hands.started -= instance.OnHands;
             @Hands.performed -= instance.OnHands;
             @Hands.canceled -= instance.OnHands;
+            @Horn.started -= instance.OnHorn;
+            @Horn.performed -= instance.OnHorn;
+            @Horn.canceled -= instance.OnHorn;
         }
 
         /// <summary>
@@ -737,26 +727,12 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Backwards" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Rotate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnBackwards(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "LeftRotate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLeftRotate(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "RightRotate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRightRotate(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "PickUp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -792,6 +768,13 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHands(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Horn" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHorn(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Camera" which allows adding and removing callbacks.
