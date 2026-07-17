@@ -17,10 +17,12 @@ public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragH
     private void Start()
     {
         col = GetComponent<Collider2D>();
+        inventory = GameObject.Find("key inventory");
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("Click");
+        transform.SetParent(transform.root, false);
         startPosition = transform.position;
         transform.position = Input.mousePosition;
         if (currentSlot != null)
@@ -51,7 +53,7 @@ public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragH
         }
         else
         {
-            transform.position = startPosition;
+            OnKeyRemoval(gameObject);
         }
     }
 

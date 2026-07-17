@@ -175,8 +175,10 @@ public class PlayerInput : MonoBehaviour
             pickupObject = hit.rigidbody;
 
             hit.transform.rotation = hands.transform.rotation;
-            hit.transform.position = handView.transform.position + handView.transform.position * 0.01f +
-                                     handView.transform.forward * 0.5f;
+            hit.transform.position = handView.transform.position
+                                     + handView.transform.position * 0.01f 
+                                     + handView.transform.forward * 0.5f 
+                                     + handView.transform.up * 0.2f;
 
             pickupJoint.connectedBody = pickupObject;
         }
@@ -190,7 +192,7 @@ public class PlayerInput : MonoBehaviour
         pickupJoint.connectedBody = null;
         Destroy(pickupJoint);
         pickupObject.WakeUp();
-        handView.transform.localPosition = new Vector3(0, 0, 0.75f);
+       // handView.transform.localPosition = new Vector3(0, , 0.75f);
         pickupObject = null;
     }
     private void ThrowItem(InputAction.CallbackContext context)
