@@ -8,7 +8,7 @@ public class Backwards : KeyBinding
         InputAction BackwardsAction = InputManager.Instance.Controls.Player.Move;
         for (int i = 0; i < BackwardsAction.bindings.Count; i++)
         {
-            if (BackwardsAction.bindings[i].isPartOfComposite && BackwardsAction.bindings[i].name == "negative")
+            if (BackwardsAction.bindings[i].isPartOfComposite && BackwardsAction.bindings[i].name == "down")
             {
                 BackwardsAction.Disable();
                 BackwardsAction.ApplyBindingOverride(i, keyPath);
@@ -25,7 +25,7 @@ public class Backwards : KeyBinding
         InputAction BackwardsAction = InputManager.Instance.Controls.Player.Move;
         for (int i = 0; i < BackwardsAction.bindings.Count; i++)
         {
-            if (BackwardsAction.bindings[i].isPartOfComposite && BackwardsAction.bindings[i].name == "negative")
+            if (BackwardsAction.bindings[i].isPartOfComposite && BackwardsAction.bindings[i].name == "down")
             {
                 BackwardsAction.Disable();
                 BackwardsAction.ApplyBindingOverride(i, "");

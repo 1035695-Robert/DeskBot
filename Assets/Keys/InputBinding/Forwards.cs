@@ -9,7 +9,7 @@ public class Forwards : KeyBinding
         InputAction ForwardAction = InputManager.Instance.Controls.Player.Move;
         for (int i = 0; i < ForwardAction.bindings.Count; i++)
         {
-            if (ForwardAction.bindings[i].isPartOfComposite && ForwardAction.bindings[i].name == "positive")
+            if (ForwardAction.bindings[i].isPartOfComposite && ForwardAction.bindings[i].name == "up")
             {
                 ForwardAction.Disable();
                 ForwardAction.ApplyBindingOverride(i, keyPath);
@@ -26,7 +26,7 @@ public class Forwards : KeyBinding
         InputAction ForwardAction = InputManager.Instance.Controls.Player.Move;
         for (int i = 0; i < ForwardAction.bindings.Count; i++)
         {
-            if (ForwardAction.bindings[i].isPartOfComposite && ForwardAction.bindings[i].name == "positive")
+            if (ForwardAction.bindings[i].isPartOfComposite && ForwardAction.bindings[i].name == "up")
             {
                 ForwardAction.Disable();
 

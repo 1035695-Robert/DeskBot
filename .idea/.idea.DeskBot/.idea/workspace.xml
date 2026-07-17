@@ -21,6 +21,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/prototype2/InputBinding/Horn.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/prototype2/InputBinding/RightMove.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@47e51ce530b9/Runtime/TMP/TMP_PackageResourceImporter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@47e51ce530b9/Runtime/TMP/TextMeshProUGUI.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -99,6 +100,7 @@
       <updated>1784071255645</updated>
       <workItem from="1784071258041" duration="401000" />
       <workItem from="1784071682862" duration="23132000" />
+      <workItem from="1784163994437" duration="5799000" />
     </task>
     <servers />
   </component>

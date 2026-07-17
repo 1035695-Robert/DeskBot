@@ -18,7 +18,7 @@ public abstract class KeyBinding : MonoBehaviour, IKeyDropSlot
             previousKey = currentKey;
         }
         currentKey = key.gameObject;
-        currentKey.transform.SetParent(transform);
+        currentKey.transform.SetParent(transform.root);
         if (previousKey != null)
         {
             IRemoveKey removeKey = previousKey.GetComponent<IRemoveKey>();
