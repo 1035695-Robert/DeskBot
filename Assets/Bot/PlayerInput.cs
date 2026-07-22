@@ -4,24 +4,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float rotationSpeed;
-
-
-    private Vector2 moveValue;
-
     private Vector2 moveInput;
 
     //private Vector3 rotationDirection;
-    Rigidbody rb;
+  
 
     //movement
-    InputAction moving;
-    InputAction rotateAction;
-    InputAction rightRotation;
-    bool isMoving, isRotating;
+    
+    [SerializeField] private float handsRotationSpeed;
 
-    float rotationDirectionValue;
+
+    Movement movementScript;
+
 
     //pickUp and Drop
     private Rigidbody pickupObject;
@@ -29,7 +23,7 @@ public class PlayerInput : MonoBehaviour
     InputAction Throw;
     [SerializeField] private float throwForce;
     [SerializeField] private float rayDistance;
-    [SerializeField] private LayerMask PickupLayer;
+    [SerializeField] private LayerMask pickupLayer;
     [SerializeField] private FixedJoint pickupJoint;
 
     //HANDS
@@ -50,11 +44,10 @@ public class PlayerInput : MonoBehaviour
     private void Start()
     {
         Debug.Log("BOT");
-        moving = InputManager.Instance.Controls.Player.Move;
+        
 
-        rotateAction = InputManager.Instance.Controls.Player.Rotate;
-
-
+      
+        
         pickup = InputManager.Instance.Controls.Player.PickUp;
         Throw = InputManager.Instance.Controls.Player.Throw;
 
@@ -62,17 +55,9 @@ public class PlayerInput : MonoBehaviour
 
         hornBeep = InputManager.Instance.Controls.Player.Horn;
 
-        rb = GetComponent<Rigidbody>();
-
-        moving.performed += Moving;
-        moving.canceled += Moving;
-
-        rotateAction.performed += RotateAction;
-        rotateAction.canceled += RotateAction;
-
+        
 
         pickup.performed += PickupDrop;
-        // dropItem.performed += DropItem;
         Throw.performed += ThrowItem;
 
         handsRaise.performed += RaiseHands;
@@ -85,14 +70,8 @@ public class PlayerInput : MonoBehaviour
 
     private void OnDisable()
     {
-        moving.performed -= Moving;
-        moving.canceled -= Moving;
-
-        rotateAction.performed -= RotateAction;
-        rotateAction.canceled -= RotateAction;
-
         pickup.performed -= PickupDrop;
-        //dropItem.performed -= DropItem;
+     
 
         handsRaise.performed -= RaiseHands;
         handsRaise.canceled -= RaiseHands;
@@ -103,57 +82,11 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        Movement();
         HandAngle();
     }
 
-    #region Movement
-    void Movement()
-    {
-        if (!isRotating && moveValue != Vector2.zero)
-        {
-            
-            Vector3 moveDirection =(transform.forward * moveValue.y) + (transform.right * moveValue.x);
-            moveDirection.Normalize();
-
-            Vector3 targetVelocity = moveDirection * moveSpeed;
-            rb.linearVelocity = new Vector3(targetVelocity.x, 0, targetVelocity.z);
-            //rb.AddForce((transform.forward * moveValue) * moveSpeed);
-            if (moveValue == Vector2.zero)
-            {
-                Debug.Log("STOP");
-                rb.linearVelocity = Vector2.zero;
-            }
-        }
-        else if (!isMoving)
-        {
-            if (rotationDirectionValue == 0) return;
-            transform.Rotate(Vector3.up * (rotationDirectionValue * rotationSpeed * 10f) * Time.deltaTime);
-
-            rb.linearVelocity = Vector2.zero;
-        }
-    }
-    private void Moving(InputAction.CallbackContext context)
-    {
-        moveValue = context.ReadValue<Vector2>();
-        if (context.performed)
-            isMoving = true;
-        if (context.canceled)
-            isMoving = false;
-    }
-
-
-    private void RotateAction(InputAction.CallbackContext context)
-    {
-        rotationDirectionValue = context.ReadValue<float>();
-        if (context.performed)
-            isRotating = true;
-        if (context.canceled)
-            isRotating = false;
-    }
-    #endregion
-    
     #region pickup
+
     private void PickupDrop(InputAction.CallbackContext context)
     {
         if (pickupObject != null)
@@ -168,7 +101,7 @@ public class PlayerInput : MonoBehaviour
         Debug.Log("Try pickup");
 
         if (Physics.Raycast(hands.transform.position, hands.transform.forward, out RaycastHit hit, rayDistance,
-                PickupLayer))
+                pickupLayer))
         {
             Debug.Log("Hit");
             pickupJoint = hands.AddComponent<FixedJoint>();
@@ -176,10 +109,10 @@ public class PlayerInput : MonoBehaviour
 
             hit.transform.rotation = hands.transform.rotation;
             hit.transform.position = handView.transform.position
-                                     + handView.transform.position * 0.01f 
-                                     + handView.transform.forward * 0.5f 
+                                     + handView.transform.position * 0.01f
+                                     + handView.transform.forward * 0.5f
                                      + handView.transform.up * 0.2f;
-
+            
             pickupJoint.connectedBody = pickupObject;
         }
     }
@@ -192,9 +125,10 @@ public class PlayerInput : MonoBehaviour
         pickupJoint.connectedBody = null;
         Destroy(pickupJoint);
         pickupObject.WakeUp();
-       // handView.transform.localPosition = new Vector3(0, , 0.75f);
+        // handView.transform.localPosition = new Vector3(0, , 0.75f);
         pickupObject = null;
     }
+
     private void ThrowItem(InputAction.CallbackContext context)
     {
         if (pickupObject == null) return;
@@ -205,12 +139,14 @@ public class PlayerInput : MonoBehaviour
         pickupObject = null;
         hands.transform.Rotate(Vector3.zero);
     }
+
     #endregion
-    
+
     #region Hands
+
     void HandAngle()
     {
-        float nextRotation = currentHandRotation + (handRotationValue * rotationSpeed * 10f) * Time.deltaTime;
+        float nextRotation = currentHandRotation + (handRotationValue * handsRotationSpeed * 10f) * Time.deltaTime;
 
         if (nextRotation >= minHandAngle && nextRotation <= maxHandAngle)
         {
@@ -227,12 +163,14 @@ public class PlayerInput : MonoBehaviour
 
         hands.transform.localRotation = Quaternion.Euler(currentHandRotation, 0, 0);
     }
+
     private void RaiseHands(InputAction.CallbackContext context)
     {
         handRotationValue = context.ReadValue<float>();
     }
+
     #endregion
-    
+
     private void Beep(InputAction.CallbackContext context)
     {
         if (context.performed)
