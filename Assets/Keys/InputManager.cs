@@ -15,7 +15,7 @@ public class InputManager : MonoBehaviour
             instance = Instance;
             Controls = new BotInputs();
             Controls.Enable();
-            DontDestroyOnLoad(gameObject);
+                DontDestroyOnLoad(gameObject);
       
         }
         else

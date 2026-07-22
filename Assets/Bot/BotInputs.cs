@@ -269,7 +269,7 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""2D Vector"",
-                    ""id"": ""15d3eeba-0b5e-41ef-8897-d1bfb5d8bfde"",
+                    ""id"": ""ea12d79b-f039-4630-8522-cc823f20e7c6"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -280,7 +280,7 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""86b1996a-890e-4e78-b60d-96b3145b580c"",
+                    ""id"": ""e4aae4b5-ce6a-44c1-b7a0-47b70def6a30"",
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
@@ -291,7 +291,7 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""9b8d9389-88a5-461d-a347-0174497c16df"",
+                    ""id"": ""50d24af0-a084-4a0f-8cb3-cb28e4e7afc1"",
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
@@ -302,7 +302,7 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""82a50f82-0f24-4c58-a929-ee5e0a25d39c"",
+                    ""id"": ""a10dae38-69ad-4ba4-8bd2-d4c61e5f8c50"",
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
@@ -313,7 +313,7 @@ public partial class @BotInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""bc9408e5-fce3-4ad5-a32a-7b8a156748b4"",
+                    ""id"": ""4bda4db2-22eb-4955-9c1a-1315cf27fcf3"",
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Display
+  - Box
   layers:
   - Default
   - TransparentFX

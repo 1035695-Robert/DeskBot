@@ -14,7 +14,6 @@ public class Display : MonoBehaviour
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            
            keyboardDisplay.SetActive(!keyboardDisplay.activeSelf);
         }
     }

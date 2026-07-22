@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class OutOfBounds : MonoBehaviour
 {
-   // gameobject = boxSpawnZone
+    // gameobject = boxSpawnZone
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -11,9 +11,10 @@ public class OutOfBounds : MonoBehaviour
         {
             collision.transform.position = Vector3.zero;
         }
-        // else if (collision.transform.CompareTag("Pickup"))
-        // {
-        //     
-        // }
+        else if (collision.transform.CompareTag("Box"))
+            {
+            Box box = collision.gameObject.GetComponent<Box>();
+            box.ResetBox();
+        }
     }
 }

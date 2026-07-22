@@ -64,20 +64,19 @@ public class PlayerInput : MonoBehaviour
         handsRaise.canceled += RaiseHands;
 
         hornBeep.performed += Beep;
-        hornBeep.canceled += Beep;
+       
     }
 
 
     private void OnDisable()
     {
         pickup.performed -= PickupDrop;
-     
-
+        Throw.performed -= ThrowItem;
+        
         handsRaise.performed -= RaiseHands;
         handsRaise.canceled -= RaiseHands;
 
         hornBeep.performed -= Beep;
-        hornBeep.canceled -= Beep;
     }
 
     private void Update()
@@ -106,7 +105,9 @@ public class PlayerInput : MonoBehaviour
             Debug.Log("Hit");
             pickupJoint = hands.AddComponent<FixedJoint>();
             pickupObject = hit.rigidbody;
-
+            
+            EventManager.OnAudioRequestEvent?.Invoke("Pickup");
+            
             hit.transform.rotation = hands.transform.rotation;
             hit.transform.position = handView.transform.position
                                      + handView.transform.position * 0.01f
@@ -124,6 +125,7 @@ public class PlayerInput : MonoBehaviour
         Debug.Log("Drop");
         pickupJoint.connectedBody = null;
         Destroy(pickupJoint);
+        EventManager.OnAudioRequestEvent?.Invoke("Drop");
         pickupObject.WakeUp();
         // handView.transform.localPosition = new Vector3(0, , 0.75f);
         pickupObject = null;
@@ -136,6 +138,9 @@ public class PlayerInput : MonoBehaviour
         pickupJoint.connectedBody = null;
         Destroy(pickupJoint);
         pickupObject.AddForce(hands.transform.forward * throwForce, ForceMode.Impulse);
+        
+        EventManager.OnAudioRequestEvent?.Invoke("Throw");
+        
         pickupObject = null;
         hands.transform.Rotate(Vector3.zero);
     }
@@ -176,11 +181,7 @@ public class PlayerInput : MonoBehaviour
         if (context.performed)
         {
             Debug.Log("Beep");
-        }
-
-        if (context.canceled)
-        {
-            Debug.Log("Beep Canceled");
+            EventManager.OnAudioRequestEvent?.Invoke("BeepTune");
         }
     }
 }
