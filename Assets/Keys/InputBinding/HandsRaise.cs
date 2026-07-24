@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HandsRaise : KeyBinding
+public class HandsRaise : KeySlot
 {
     protected override void Binding(string keyPath)
     {

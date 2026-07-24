@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Backwards : KeyBinding
+public class Backwards : KeySlot
 {
     protected override void Binding(string keyPath)
     {

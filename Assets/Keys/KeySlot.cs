@@ -1,11 +1,13 @@
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
-public abstract class KeyBinding : MonoBehaviour, IKeyDropSlot
+public abstract class KeySlot : MonoBehaviour, IKeyDropSlot
 {
+    [Header("KeyBinding variables")] [SerializeField]
+    string bindedKey;
 
-    [SerializeField] string bindedKey;
     [SerializeField] private GameObject currentKey;
     [SerializeField] private GameObject previousKey;
 
@@ -17,6 +19,7 @@ public abstract class KeyBinding : MonoBehaviour, IKeyDropSlot
         {
             previousKey = currentKey;
         }
+
         currentKey = key.gameObject;
         currentKey.transform.SetParent(transform.root);
         if (previousKey != null)
@@ -38,5 +41,4 @@ public abstract class KeyBinding : MonoBehaviour, IKeyDropSlot
     {
         currentKey = null;
     }
-    
 }

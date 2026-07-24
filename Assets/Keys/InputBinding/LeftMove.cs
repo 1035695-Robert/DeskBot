@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class LeftMove : KeyBinding
+public class LeftMove : KeySlot
 {
     protected override void Binding(string keyPath)
     {

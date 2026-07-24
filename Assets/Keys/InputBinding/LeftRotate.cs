@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class LeftRotate : KeyBinding
+public class LeftRotate : KeySlot
 {
     protected override void Binding(string keyPath)
     {

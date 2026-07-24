@@ -43,12 +43,7 @@ public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragH
         if (hitCollider != null && hitCollider.TryGetComponent(out IKeyDropSlot keyDropSlot))
         {
             currentSlot = hitCollider.gameObject;   
-            if(previousSlot != null && previousSlot.TryGetComponent(out IKeyDropSlot RemoveBnding))
-            {
-                RemoveBnding.OnNullifyBind();
-                previousSlot = null;
-                
-            }
+           PreviousCheck();
             keyDropSlot.OnKeyDrop(this, gameObject.name);
         }
         else
@@ -60,8 +55,19 @@ public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragH
 
     public void OnKeyRemoval(GameObject key)
     {
+        PreviousCheck();
         key.transform.SetParent(inventory.transform);
         currentSlot = null;
        
+    }
+
+    private void PreviousCheck()
+    {
+        if(previousSlot != null && previousSlot.TryGetComponent(out IKeyDropSlot RemoveBnding))
+        {
+            RemoveBnding.OnNullifyBind();
+            previousSlot = null;
+                
+        }
     }
 }

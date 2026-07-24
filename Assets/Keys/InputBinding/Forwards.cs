@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Forwards : KeyBinding
+public class Forwards : KeySlot
 {
     protected override void Binding(string keyPath)
     {

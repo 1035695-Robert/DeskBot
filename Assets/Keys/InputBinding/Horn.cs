@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Horn : KeyBinding
+public class Horn : KeySlot
 {
     protected override void Binding(string keyPath)
     {

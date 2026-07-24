@@ -10,3 +10,8 @@ public interface IRemoveKey
 {
     void OnKeyRemoval(GameObject key);
 }
+
+public interface IUnlockAbility
+{
+    void OnUnlockAbility();
+}

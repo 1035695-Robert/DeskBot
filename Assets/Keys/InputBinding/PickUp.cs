@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PickUp : KeyBinding
+public class PickUp : KeySlot
 {
     protected override void Binding(string keyPath)
     {

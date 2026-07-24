@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class RightMove : KeyBinding
+public class RightMove : KeySlot
 {
     protected override void Binding(string keyPath)
     {

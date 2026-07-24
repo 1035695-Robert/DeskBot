@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Throw : KeyBinding
+public class Throw : KeySlot
 {
     protected override void Binding(string keyPath)
     {

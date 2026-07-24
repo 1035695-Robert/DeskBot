@@ -1,4 +1,5 @@
 
+using Keys;
 using TMPro;
 using UnityEngine;
 
@@ -13,7 +14,8 @@ public class TargetHit : MonoBehaviour
 {
     [SerializeField] HitColour hitColour;
     [SerializeField] TextMeshProUGUI scoreText;
-    private int score;
+    
+    private int tokenCount;
     void Start()
     {
         ChangeTargetColour();
@@ -23,8 +25,8 @@ public class TargetHit : MonoBehaviour
         Box box = other.GetComponent<Box>();
         if (box.hitColour == hitColour)
         {
-            score++;
-            scoreText.text =  "Score:" + score.ToString();
+            tokenCount++;
+            scoreText.text =  "tokens:" + tokenCount.ToString();
             ChangeTargetColour();
         }
     }
