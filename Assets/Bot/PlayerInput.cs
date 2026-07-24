@@ -110,8 +110,7 @@ public class PlayerInput : MonoBehaviour
             
             hit.transform.rotation = hands.transform.rotation;
             hit.transform.position = handView.transform.position
-                                     + handView.transform.position * 0.01f
-                                     + handView.transform.forward * 0.5f
+                                     + handView.transform.forward* 0.5f
                                      + handView.transform.up * 0.2f;
             
             pickupJoint.connectedBody = pickupObject;
@@ -124,6 +123,7 @@ public class PlayerInput : MonoBehaviour
         pickupObject.useGravity = true;
         Debug.Log("Drop");
         pickupJoint.connectedBody = null;
+        //hands.
         Destroy(pickupJoint);
         EventManager.OnAudioRequestEvent?.Invoke("Drop");
         pickupObject.WakeUp();

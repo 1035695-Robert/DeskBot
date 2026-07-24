@@ -25,7 +25,8 @@ public abstract class KeyBinding : MonoBehaviour, IKeyDropSlot
             removeKey.OnKeyRemoval(previousKey);
             previousKey = null;
         }
-        
+
+        keyName.TrimEnd();
         string keyPath = $"<keyboard>/{keyName.ToLower()}";
         Binding(keyPath);
     }
