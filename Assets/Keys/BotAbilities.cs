@@ -31,11 +31,9 @@ public class BotAbilities
         }
     }
 
-    private List<AbilityType> unlockedAbilityTypeList = new List<AbilityType>();
-    // = new List<AbilityType>
-    // {
-    //     AbilityType.Forwards, AbilityType.GrabDrop, AbilityType.RotateLeft,
-    // };
+    private List<AbilityType> unlockedAbilityTypeList = new List<AbilityType>{
+        AbilityType.Forwards, AbilityType.GrabDrop, AbilityType.RotateLeft,
+    };
 
     private void UnlockAbility(AbilityType ability)
     {
@@ -59,8 +57,11 @@ public class BotAbilities
         {
             case AbilityType.MoveLeft: return AbilityType.RotateLeft;
             case AbilityType.MoveRight: return AbilityType.RotateRight;
+            case AbilityType.Backwards: return AbilityType.Forwards;
+            case AbilityType.Throw: return AbilityType.GrabDrop;
+            case AbilityType.RaiseHands: return AbilityType.Throw;
+            case AbilityType.LowerHands: return AbilityType.Throw;
         }
-
         return AbilityType.Null;
     }
 
@@ -76,7 +77,7 @@ public class BotAbilities
             }
             return false;
         }
-
+        
         UnlockAbility(ability);
         return true;
     }
