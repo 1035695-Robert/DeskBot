@@ -67,19 +67,12 @@ public class BotAbilities
 
     public bool TryUnlockAbility(AbilityType ability)
     {
-        AbilityType abilityRequirement = Requirement(ability);
-        if (abilityRequirement != AbilityType.Null)
+        if (CanUnlock(ability))
         {
-            if (IsAbilityUnlocked(abilityRequirement))
-            {
-                UnlockAbility(ability);
-                return true;
-            }
-            return false;
+            UnlockAbility(ability);
+            return true;
         }
-        
-        UnlockAbility(ability);
-        return true;
+        else return false;
     }
 
     public bool CanUnlock(AbilityType ability)
@@ -87,8 +80,9 @@ public class BotAbilities
         AbilityType abilityRequirement = Requirement(ability);
         if (abilityRequirement != AbilityType.Null)
             if (IsAbilityUnlocked(abilityRequirement))
-                return true;
-            else return false;
+            { return true; }
+            else
+            { return false; }
         UnlockAbility(ability);
         return true;
     }
