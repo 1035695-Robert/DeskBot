@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-    public HitColour hitColour;
+    public HitColour colour;
     Vector3 startPosition;
     private Rigidbody rb;
 

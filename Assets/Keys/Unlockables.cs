@@ -21,29 +21,20 @@ namespace Keys
             ability = BotAbilities.Instance;
             keySlotCollider = GetComponent<Collider2D>();
             keySlotImage = GetComponent<Image>();
+      
             OnUnlockAbility();
         }
 
         public void OnUnlockAbility()
         {
-            isUnlocked = IsUnlocked();
-            LockToggle();
-        }
-
-        private void LockToggle()
-        {
-            switch (isUnlocked)
+            if (!isUnlocked)
             {
-                case true:
-                    Debug.Log("check");
-                    keySlotCollider.enabled = true;
-                    keySlotImage.color = Color.white;
-                    break;
-                case false:
-                    Debug.Log("NOT check");
-                    keySlotCollider.enabled = false;
-                    keySlotImage.color = Color.gray;
-                    break;
+                bool currentlyUnlocked = IsUnlocked();
+                keySlotCollider.enabled = currentlyUnlocked;
+                keySlotImage.color = currentlyUnlocked ? Color.white : Color.gray;
+                isUnlocked = currentlyUnlocked;
+
+                Debug.Log(currentlyUnlocked ? "locked" : "unlocked");
             }
         }
 

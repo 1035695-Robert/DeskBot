@@ -48,12 +48,12 @@ public class PlayerInput : MonoBehaviour
 
       
         
-        pickup = InputManager.Instance.Controls.Player.PickUp;
-        Throw = InputManager.Instance.Controls.Player.Throw;
+        pickup = InputManager.Instance.controls.Player.PickUp;
+        Throw = InputManager.Instance.controls.Player.Throw;
 
-        handsRaise = InputManager.Instance.Controls.Player.Hands;
+        handsRaise = InputManager.Instance.controls.Player.Hands;
 
-        hornBeep = InputManager.Instance.Controls.Player.Horn;
+        hornBeep = InputManager.Instance.controls.Player.Horn;
 
         
 
@@ -106,7 +106,7 @@ public class PlayerInput : MonoBehaviour
             pickupJoint = hands.AddComponent<FixedJoint>();
             pickupObject = hit.rigidbody;
             
-            EventManager.OnAudioRequestEvent?.Invoke("Pickup");
+            //EventManager.OnAudioRequestEvent?.Invoke("Pickup");
             
             hit.transform.rotation = hands.transform.rotation;
             hit.transform.position = handView.transform.position

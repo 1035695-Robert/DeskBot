@@ -12,6 +12,8 @@ public class Movement : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float maxSlopeAngle;
+    
+    private RaycastHit hit;
 
     float rotationDirectionValue;
 
@@ -21,8 +23,8 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
-        moving = InputManager.Instance.Controls.Player.Move;
-        rotateAction = InputManager.Instance.Controls.Player.Rotate;
+        moving = InputManager.Instance.controls.Player.Move;
+        rotateAction = InputManager.Instance.controls.Player.Rotate;
 
         rb = GetComponent<Rigidbody>();
 
@@ -91,7 +93,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private RaycastHit hit;
+  
 
     private bool OnSlope()
     {
@@ -101,12 +103,7 @@ public class Movement : MonoBehaviour
         
         return false;
     }
-
-    private Vector3 GetSlopeMoveDirection(Vector3 direction)
-    {
-        return Vector3.ProjectOnPlane(direction, hit.normal).normalized;
-    }
-
+    
 
     private void Moving(InputAction.CallbackContext context)
     {

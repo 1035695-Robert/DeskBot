@@ -3,24 +3,36 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-
 public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler, IRemoveKey
 {
-
-
     private Vector3 startPosition;
     [SerializeField] private GameObject inventory;
     private Collider2D col;
+    private bool isInZone = true;
+
     public GameObject currentSlot;
     public GameObject previousSlot;
+
 
     private void Start()
     {
         col = GetComponent<Collider2D>();
         inventory = GameObject.Find("key inventory");
     }
+
+    private void OnEnable()
+    {
+        EventManager.OnEnterKeyboardAreaEvent += ToggleKeyboardArea;
+    }
+
+    private void ToggleKeyboardArea(bool state)
+    {
+        isInZone = state;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!isInZone) return;
         Debug.Log("Click");
         transform.SetParent(transform.root, false);
         startPosition = transform.position;
@@ -33,17 +45,21 @@ public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragH
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!isInZone) return;
         transform.position = Input.mousePosition;
     }
+
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!isInZone) return;
+
         col.enabled = false;
         Collider2D hitCollider = Physics2D.OverlapPoint(transform.position);
 
         if (hitCollider != null && hitCollider.TryGetComponent(out IKeyDropSlot keyDropSlot))
         {
-            currentSlot = hitCollider.gameObject;   
-           PreviousCheck();
+            currentSlot = hitCollider.gameObject;
+            PreviousCheck();
             keyDropSlot.OnKeyDrop(this, gameObject.name);
         }
         else
@@ -58,16 +74,14 @@ public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragH
         PreviousCheck();
         key.transform.SetParent(inventory.transform);
         currentSlot = null;
-       
     }
 
     private void PreviousCheck()
     {
-        if(previousSlot != null && previousSlot.TryGetComponent(out IKeyDropSlot RemoveBnding))
+        if (previousSlot != null && previousSlot.TryGetComponent(out IKeyDropSlot RemoveBnding))
         {
             RemoveBnding.OnNullifyBind();
             previousSlot = null;
-                
         }
     }
 }

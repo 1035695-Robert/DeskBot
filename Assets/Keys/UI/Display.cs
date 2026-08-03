@@ -8,7 +8,6 @@ public class Display : MonoBehaviour
 {
     public LayerMask displayUI;
     public GameObject keyboardDisplay;
-    public InputAction displayToggle;
     
     public void Update()
     {

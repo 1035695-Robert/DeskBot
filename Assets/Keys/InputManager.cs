@@ -1,27 +1,18 @@
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager
 {
-    public static InputManager Instance;
-    public InputManager instance;
-    public BotInputs Controls;
+    public static readonly InputManager Instance;
+    public readonly BotInputs controls;
 
-    private void Awake()
+    static InputManager()
     {
-        if (Instance == null)
-        {
-            Debug.Log("Instance");
-            Instance = this;
-            instance = Instance;
-            Controls = new BotInputs();
-            Controls.Enable();
-                DontDestroyOnLoad(gameObject);
-      
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = new InputManager();
+    }
+
+    private InputManager()
+    {
+        controls = new BotInputs();
+        controls.Enable();
     }
 }
-

@@ -5,7 +5,7 @@ public class LeftMove : KeySlot
 {
     protected override void Binding(string keyPath)
     {
-        InputAction leftAction = InputManager.Instance.Controls.Player.Move;
+        InputAction leftAction = InputManager.Instance.controls.Player.Move;
         for (int i = 0; i < leftAction.bindings.Count; i++)
         {
             if (leftAction.bindings[i].isPartOfComposite && leftAction.bindings[i].name == "left")
@@ -22,7 +22,7 @@ public class LeftMove : KeySlot
     public override void OnNullifyBind()
     {
         base.OnNullifyBind();
-        InputAction leftAction = InputManager.Instance.Controls.Player.Move;
+        InputAction leftAction = InputManager.Instance.controls.Player.Move;
         for (int i = 0; i < leftAction.bindings.Count; i++)
         {
             if (leftAction.bindings[i].isPartOfComposite && leftAction.bindings[i].name == "left")

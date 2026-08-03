@@ -5,7 +5,7 @@ public class RightRotate : KeySlot
 {
     protected override void Binding(string keyPath)
     {
-        InputAction rightRotateAction = InputManager.Instance.Controls.Player.Rotate;
+        InputAction rightRotateAction = InputManager.Instance.controls.Player.Rotate;
         for (int i = 0; i < rightRotateAction.bindings.Count; i++)
         {
             if (rightRotateAction.bindings[i].isPartOfComposite && rightRotateAction.bindings[i].name == "negative")
@@ -22,7 +22,7 @@ public class RightRotate : KeySlot
     public override void OnNullifyBind()
     {
         base.OnNullifyBind();
-        InputAction rightRotateAction = InputManager.Instance.Controls.Player.Rotate;
+        InputAction rightRotateAction = InputManager.Instance.controls.Player.Rotate;
         for (int i = 0; i < rightRotateAction.bindings.Count; i++)
         {
             if (rightRotateAction.bindings[i].isPartOfComposite && rightRotateAction.bindings[i].name == "negative")

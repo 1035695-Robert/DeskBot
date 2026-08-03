@@ -5,7 +5,7 @@ public class HandsLower : KeySlot
 {
     protected override void Binding(string keyPath)
     {
-        InputAction LowerHandAction = InputManager.Instance.Controls.Player.Hands;
+        InputAction LowerHandAction = InputManager.Instance.controls.Player.Hands;
         for (int i = 0; i < LowerHandAction.bindings.Count; i++)
         {
             if (LowerHandAction.bindings[i].isPartOfComposite && LowerHandAction.bindings[i].name == "positive")
@@ -22,7 +22,7 @@ public class HandsLower : KeySlot
     public override void OnNullifyBind()
     {
         base.OnNullifyBind();
-        InputAction LowerHandAction = InputManager.Instance.Controls.Player.Hands;
+        InputAction LowerHandAction = InputManager.Instance.controls.Player.Hands;
         for (int i = 0; i < LowerHandAction.bindings.Count; i++)
         {
             if (LowerHandAction.bindings[i].isPartOfComposite && LowerHandAction.bindings[i].name == "positive")

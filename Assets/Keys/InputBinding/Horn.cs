@@ -5,7 +5,7 @@ public class Horn : KeySlot
 {
     protected override void Binding(string keyPath)
     {
-        InputAction hornAction = InputManager.Instance.Controls.Player.Horn;
+        InputAction hornAction = InputManager.Instance.controls.Player.Horn;
 
         hornAction.Disable();
 
@@ -17,7 +17,7 @@ public class Horn : KeySlot
     public override void OnNullifyBind()
     {
         base.OnNullifyBind();
-        InputAction hornAction = InputManager.Instance.Controls.Player.Horn;
+        InputAction hornAction = InputManager.Instance.controls.Player.Horn;
 
         hornAction.Disable();
 

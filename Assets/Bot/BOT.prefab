@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70ae0d893b7c54d43895b4c5e9e9303b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 2.5
   rotationSpeed: 5
   maxSlopeAngle: 45
 --- !u!114 &6972992363763177817
@@ -319,7 +319,7 @@ Rigidbody:
   m_GameObject: {fileID: 6410040190357098153}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 2
+  m_Drag: 5
   m_AngularDrag: 2
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -330,7 +330,7 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
+  m_ImplicitCom: 0
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0

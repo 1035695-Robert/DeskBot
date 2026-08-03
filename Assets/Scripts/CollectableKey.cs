@@ -22,6 +22,5 @@ public class CollectableKey : MonoBehaviour
          newKey.transform.SetParent(keyInventory.transform, false);
          transform.root.gameObject.SetActive(false);
       }
-         
    }
 }

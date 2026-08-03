@@ -6,7 +6,7 @@ public class Forwards : KeySlot
     protected override void Binding(string keyPath)
     {
        
-        InputAction ForwardAction = InputManager.Instance.Controls.Player.Move;
+        InputAction ForwardAction = InputManager.Instance.controls.Player.Move;
         for (int i = 0; i < ForwardAction.bindings.Count; i++)
         {
             if (ForwardAction.bindings[i].isPartOfComposite && ForwardAction.bindings[i].name == "up")
@@ -23,7 +23,7 @@ public class Forwards : KeySlot
     public override void OnNullifyBind()
     {
         base.OnNullifyBind();
-        InputAction ForwardAction = InputManager.Instance.Controls.Player.Move;
+        InputAction ForwardAction = InputManager.Instance.controls.Player.Move;
         for (int i = 0; i < ForwardAction.bindings.Count; i++)
         {
             if (ForwardAction.bindings[i].isPartOfComposite && ForwardAction.bindings[i].name == "up")

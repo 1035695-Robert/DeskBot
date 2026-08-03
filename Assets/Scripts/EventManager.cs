@@ -1,4 +1,3 @@
-using System;
 
 
 public class EventManager
@@ -6,6 +5,16 @@ public class EventManager
     public delegate void OnAudioRequest(string clipName);
 
     public static OnAudioRequest OnAudioRequestEvent;
-    public static Action OnAudioCancelEvent;
-   
+    
+
+
+    public delegate void OnEnterKeyboardArea(bool state);
+    public static OnEnterKeyboardArea OnEnterKeyboardAreaEvent;
+    
+    public delegate void OnTaskCompletion();
+    public static OnTaskCompletion OnTaskCompletionEvent;
+
+    public delegate void OnAbilitySelected(AbilityType name, string description, string price);
+    public static OnAbilitySelected OnAbilitySelectedEvent;
+
 }

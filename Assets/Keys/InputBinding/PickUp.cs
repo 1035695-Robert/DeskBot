@@ -5,7 +5,7 @@ public class PickUp : KeySlot
 {
     protected override void Binding(string keyPath)
     {
-        InputAction LeftRotateAction = InputManager.Instance.Controls.Player.PickUp;
+        InputAction LeftRotateAction = InputManager.Instance.controls.Player.PickUp;
 
         LeftRotateAction.Disable();
 
@@ -19,7 +19,7 @@ public class PickUp : KeySlot
     {
         base.OnNullifyBind();
         
-        InputAction LeftRotateAction = InputManager.Instance.Controls.Player.PickUp;
+        InputAction LeftRotateAction = InputManager.Instance.controls.Player.PickUp;
 
         LeftRotateAction.Disable();
 

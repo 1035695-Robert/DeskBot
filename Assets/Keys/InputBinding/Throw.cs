@@ -5,7 +5,7 @@ public class Throw : KeySlot
 {
     protected override void Binding(string keyPath)
     {
-        InputAction RightRotateAction = InputManager.Instance.Controls.Player.Throw;
+        InputAction RightRotateAction = InputManager.Instance.controls.Player.Throw;
 
         RightRotateAction.Disable();
 
@@ -17,7 +17,7 @@ public class Throw : KeySlot
     public override void OnNullifyBind()
     {
         base.OnNullifyBind();
-        InputAction RightRotateAction = InputManager.Instance.Controls.Player.Throw;
+        InputAction RightRotateAction = InputManager.Instance.controls.Player.Throw;
 
         RightRotateAction.Disable();
 

@@ -5,7 +5,7 @@ public class Backwards : KeySlot
 {
     protected override void Binding(string keyPath)
     {
-        InputAction BackwardsAction = InputManager.Instance.Controls.Player.Move;
+        InputAction BackwardsAction = InputManager.Instance.controls.Player.Move;
         for (int i = 0; i < BackwardsAction.bindings.Count; i++)
         {
             if (BackwardsAction.bindings[i].isPartOfComposite && BackwardsAction.bindings[i].name == "down")
@@ -22,7 +22,7 @@ public class Backwards : KeySlot
     public override void OnNullifyBind()
     {
         base.OnNullifyBind();
-        InputAction BackwardsAction = InputManager.Instance.Controls.Player.Move;
+        InputAction BackwardsAction = InputManager.Instance.controls.Player.Move;
         for (int i = 0; i < BackwardsAction.bindings.Count; i++)
         {
             if (BackwardsAction.bindings[i].isPartOfComposite && BackwardsAction.bindings[i].name == "down")

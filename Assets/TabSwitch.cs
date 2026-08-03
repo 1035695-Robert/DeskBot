@@ -12,7 +12,7 @@ public class TabSwitch : MonoBehaviour
     {
         unlockables.onClick.AddListener(OpenUnlockableAbilityTree);
         keyboardButton.onClick.AddListener(OpenKeyboardUI);
-        if(keyboardUi.activeSelf)
+        if(!keyboardUi.activeSelf)
             OpenKeyboardUI();
         else if(unlockableUi.activeSelf)
             OpenUnlockableAbilityTree();
@@ -20,17 +20,16 @@ public class TabSwitch : MonoBehaviour
 
     private void OpenKeyboardUI()
     {
-        keyboardUi.SetActive(true);
-        keyboardButton.interactable = false;
-        unlockableUi.SetActive(false);
-        unlockables.interactable = true;
+        keyboardUi.SetActive(!keyboardUi.activeSelf);
+        if (unlockableUi.activeInHierarchy)
+            unlockableUi.SetActive(!unlockableUi.activeInHierarchy);
+        
     }
 
     private void OpenUnlockableAbilityTree()
     {
-        keyboardUi.SetActive(false);
-        keyboardButton.interactable = true;
-        unlockableUi.SetActive(true);
-        unlockables.interactable = false;
+        unlockableUi.SetActive(!unlockableUi.activeSelf);
+        if(!keyboardUi.activeInHierarchy)
+            keyboardUi.SetActive(!keyboardUi.activeInHierarchy);
     }
 }

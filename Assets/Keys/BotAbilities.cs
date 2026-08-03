@@ -4,21 +4,16 @@ using UnityEngine;
 public enum AbilityType
 {
     Null,
-    Forwards,
-    GrabDrop,
-    Backwards,
-    MoveLeft,
-    MoveRight,
-    Throw,
-    RotateLeft,
-    RotateRight,
-    RaiseHands,
-    LowerHands,
-    Horn,
+    BaseControls,
+    SideMovement,
+    HandsBundle,
 }
 
 public class BotAbilities
 {
+    // public delegate void OnUnlockAbility(AbilityType ability);
+    // public static OnUnlockAbility onUnlockAbility;
+    
     private static BotAbilities _instance;
 
     public static BotAbilities Instance
@@ -31,8 +26,9 @@ public class BotAbilities
         }
     }
 
-    private List<AbilityType> unlockedAbilityTypeList = new List<AbilityType>{
-        AbilityType.Forwards, AbilityType.GrabDrop, AbilityType.RotateLeft,
+    private List<AbilityType> unlockedAbilityTypeList = new List<AbilityType>
+    {
+       AbilityType.BaseControls
     };
 
     private void UnlockAbility(AbilityType ability)
@@ -40,10 +36,34 @@ public class BotAbilities
         if (!IsAbilityUnlocked(ability))
         {
             unlockedAbilityTypeList.Add(ability);
-            if (GameObject.Find(ability.ToString()).TryGetComponent(out IUnlockAbility abilityUnlock))
-                abilityUnlock.OnUnlockAbility();
-            else Debug.LogError("no unlock ability found");
+            string[] ablilityArray = SelectAbilityInBundle(ability);
+            foreach (string abilityName in ablilityArray)
+            {
+                if (GameObject.Find(abilityName).TryGetComponent(out IUnlockAbility abilityUnlock))
+                    abilityUnlock.OnUnlockAbility();
+                else
+                    Debug.LogError("Couldn't find " + abilityName);
+            }
         }
+    }
+
+    private string[] SelectAbilityInBundle(AbilityType ability)
+    {
+        List<string> abilityList = new List<string>();
+        switch (ability)
+        {
+            case AbilityType.SideMovement:
+                abilityList.Add("Backwards");
+                abilityList.Add("MoveLeft");
+                abilityList.Add("MoveRight");
+                return abilityList.ToArray();
+            case AbilityType.HandsBundle:
+                abilityList.Add("RaiseHands");
+                abilityList.Add("LowerHands");
+                abilityList.Add("Throw");
+                return abilityList.ToArray();
+        }
+        return abilityList.ToArray();
     }
 
     public bool IsAbilityUnlocked(AbilityType ability)
@@ -55,35 +75,31 @@ public class BotAbilities
     {
         switch (ability)
         {
-            case AbilityType.MoveLeft: return AbilityType.RotateLeft;
-            case AbilityType.MoveRight: return AbilityType.RotateRight;
-            case AbilityType.Backwards: return AbilityType.Forwards;
-            case AbilityType.Throw: return AbilityType.GrabDrop;
-            case AbilityType.RaiseHands: return AbilityType.Throw;
-            case AbilityType.LowerHands: return AbilityType.Throw;
+            case AbilityType.SideMovement: return AbilityType.HandsBundle;
+            case AbilityType.HandsBundle: return AbilityType.BaseControls;
         }
+        
         return AbilityType.Null;
     }
 
-    public bool TryUnlockAbility(AbilityType ability)
+    public void TryUnlockAbility(AbilityType ability)
     {
         if (CanUnlock(ability))
         {
             UnlockAbility(ability);
-            return true;
         }
-        else return false;
     }
 
     public bool CanUnlock(AbilityType ability)
     {
         AbilityType abilityRequirement = Requirement(ability);
         if (abilityRequirement != AbilityType.Null)
-            if (IsAbilityUnlocked(abilityRequirement))
-            { return true; }
-            else
-            { return false; }
-        UnlockAbility(ability);
+        {
+            if (!IsAbilityUnlocked(abilityRequirement))
+            {
+                return false;
+            }
+        }
         return true;
     }
 }

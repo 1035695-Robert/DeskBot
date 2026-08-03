@@ -23,7 +23,7 @@ public class TargetHit : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     { 
         Box box = other.GetComponent<Box>();
-        if (box.hitColour == hitColour)
+        if (box.colour == hitColour)
         {
             tokenCount++;
             scoreText.text =  "tokens:" + tokenCount.ToString();
