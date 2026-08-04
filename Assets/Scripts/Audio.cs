@@ -30,13 +30,13 @@ public class Audio : MonoBehaviour
             audioSource.clip = clip;
             PlayClip();
         }
-
-        
     }
 
     private void PlayClip()
     {
-        audioSource.pitch = Random.Range(1f, 1.5f);
+        //audioSource.pitch = Random.Range(1f, 1.5f);
+        //needs working on as the pitching is wierd 
+        
         audioSource.Play();
     }
 

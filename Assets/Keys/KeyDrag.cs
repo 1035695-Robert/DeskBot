@@ -78,9 +78,9 @@ public class KeyDrag : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragH
 
     private void PreviousCheck()
     {
-        if (previousSlot != null && previousSlot.TryGetComponent(out IKeyDropSlot RemoveBnding))
+        if (previousSlot != null && previousSlot.TryGetComponent(out IKeyDropSlot removeBinding))
         {
-            RemoveBnding.OnNullifyBind();
+            removeBinding.OnNullifyBind();
             previousSlot = null;
         }
     }

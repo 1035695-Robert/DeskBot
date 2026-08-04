@@ -106,7 +106,7 @@ public class PlayerInput : MonoBehaviour
             pickupJoint = hands.AddComponent<FixedJoint>();
             pickupObject = hit.rigidbody;
             
-            //EventManager.OnAudioRequestEvent?.Invoke("Pickup");
+            EventManager.OnAudioRequestEvent?.Invoke("Pickup");
             
             hit.transform.rotation = hands.transform.rotation;
             hit.transform.position = handView.transform.position

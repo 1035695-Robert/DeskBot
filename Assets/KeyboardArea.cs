@@ -3,24 +3,24 @@ using UnityEngine;
 
 public class KeyboardArea : MonoBehaviour
 {
-    [SerializeField] private GameObject inventoryUi;
-    [SerializeField] private GameObject tabsUI;
+    [SerializeField] private GameObject[] screenUi;
+    [SerializeField] BoxCollider hitCollider;
 
     public bool isActiveState;
 
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.transform.CompareTag("Player"))
+        if (other.transform.CompareTag("Player"))
         {
             EventManager.OnEnterKeyboardAreaEvent?.Invoke(true);
             UiSwitch(true);
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        if (collision.transform.CompareTag("Player"))
+        if (other.transform.CompareTag("Player"))
         {
             EventManager.OnEnterKeyboardAreaEvent?.Invoke(false);
             UiSwitch(false);
@@ -29,7 +29,9 @@ public class KeyboardArea : MonoBehaviour
 
     private void UiSwitch(bool state)
     {
-        inventoryUi.SetActive(state);
-        tabsUI.SetActive(state);
+        foreach (var ui in screenUi)
+        {
+            ui.SetActive(state);
+        }
     }
 }

@@ -5,8 +5,8 @@ public enum AbilityType
 {
     Null,
     BaseControls,
-    SideMovement,
-    HandsBundle,
+    MovementUpgrade,
+    HandsUpgrade,
 }
 
 public class BotAbilities
@@ -52,12 +52,12 @@ public class BotAbilities
         List<string> abilityList = new List<string>();
         switch (ability)
         {
-            case AbilityType.SideMovement:
+            case AbilityType.MovementUpgrade:
                 abilityList.Add("Backwards");
                 abilityList.Add("MoveLeft");
                 abilityList.Add("MoveRight");
                 return abilityList.ToArray();
-            case AbilityType.HandsBundle:
+            case AbilityType.HandsUpgrade:
                 abilityList.Add("RaiseHands");
                 abilityList.Add("LowerHands");
                 abilityList.Add("Throw");
@@ -75,8 +75,8 @@ public class BotAbilities
     {
         switch (ability)
         {
-            case AbilityType.SideMovement: return AbilityType.HandsBundle;
-            case AbilityType.HandsBundle: return AbilityType.BaseControls;
+            case AbilityType.MovementUpgrade: return AbilityType.HandsUpgrade;
+            case AbilityType.HandsUpgrade: return AbilityType.BaseControls;
         }
         
         return AbilityType.Null;
