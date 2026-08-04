@@ -31,11 +31,11 @@ public abstract class KeySlot : MonoBehaviour, IKeyDropSlot
 
         keyName.TrimEnd();
         string keyPath = $"<keyboard>/{keyName.ToLower()}";
-        Binding(keyPath);
+        Binding(keyPath, keyName);
     }
 
 
-    protected abstract void Binding(string keyPath);
+    protected abstract void Binding(string keyPath, string keyName);
 
     public virtual void OnNullifyBind()
     {

@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class LeftRotate : KeySlot
 {
-    protected override void Binding(string keyPath)
+    protected override void Binding(string keyPath,string keyName)
     {
         InputAction leftRotateAction = InputManager.Instance.controls.Player.Rotate;
         for (int i = 0; i < leftRotateAction.bindings.Count; i++)
@@ -13,6 +13,8 @@ public class LeftRotate : KeySlot
                 leftRotateAction.Disable();
                 leftRotateAction.ApplyBindingOverride(i, keyPath);
                 Debug.Log($"{leftRotateAction.bindings[i].name} rebound to {keyPath}");
+                BindingList.Instance.AddToList(keyName+" = Rotate Left");
+
                 leftRotateAction.Enable();
                 break;
             }
@@ -29,6 +31,8 @@ public class LeftRotate : KeySlot
             {
                 leftRotateAction.Disable();
                 leftRotateAction.ApplyBindingOverride(i, "");
+                BindingList.Instance.RemoveFromList(" Rotate Left");
+
                 leftRotateAction.Enable();
                 break;
             }

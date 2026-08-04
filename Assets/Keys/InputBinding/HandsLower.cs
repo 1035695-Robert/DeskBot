@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class HandsLower : KeySlot
 {
-    protected override void Binding(string keyPath)
+    protected override void Binding(string keyPath,string  keyName)
     {
         InputAction LowerHandAction = InputManager.Instance.controls.Player.Hands;
         for (int i = 0; i < LowerHandAction.bindings.Count; i++)
@@ -13,6 +13,8 @@ public class HandsLower : KeySlot
                 LowerHandAction.Disable();
                 LowerHandAction.ApplyBindingOverride(i, keyPath);
                 Debug.Log($"{LowerHandAction.bindings[i].name} rebound to {keyPath}");
+                BindingList.Instance.AddToList(keyName +" = Lower Hands");
+
                 LowerHandAction.Enable();
                 break;
             }
@@ -29,6 +31,8 @@ public class HandsLower : KeySlot
             {
                 LowerHandAction.Disable();
                 LowerHandAction.ApplyBindingOverride(i, "");
+                BindingList.Instance.RemoveFromList(" Lower Hands");
+
                 LowerHandAction.Enable();
                 break;
             }

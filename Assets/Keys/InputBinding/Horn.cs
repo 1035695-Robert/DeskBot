@@ -3,13 +3,15 @@ using UnityEngine.InputSystem;
 
 public class Horn : KeySlot
 {
-    protected override void Binding(string keyPath)
+    protected override void Binding(string keyPath,string keyName)
     {
         InputAction hornAction = InputManager.Instance.controls.Player.Horn;
 
         hornAction.Disable();
 
         hornAction.ApplyBindingOverride(0, keyPath);
+        BindingList.Instance.AddToList(keyName + " = Horn");
+
 
         hornAction.Enable();
     }
@@ -22,6 +24,8 @@ public class Horn : KeySlot
         hornAction.Disable();
 
         hornAction.ApplyBindingOverride(0, "");
+        BindingList.Instance.RemoveFromList(" = Horn");
+
 
         hornAction.Enable();
     }

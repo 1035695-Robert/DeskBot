@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class RightMove : KeySlot
 {
-    protected override void Binding(string keyPath)
+    protected override void Binding(string keyPath,string keyName)
     {
         InputAction rightAction = InputManager.Instance.controls.Player.Move;
         for (int i = 0; i < rightAction.bindings.Count; i++)
@@ -13,6 +13,8 @@ public class RightMove : KeySlot
                 rightAction.Disable();
                 rightAction.ApplyBindingOverride(i, keyPath);
                 Debug.Log($"{rightAction.bindings[i].name} rebound to {keyPath}");
+                BindingList.Instance.AddToList(keyName +" = Move Right");
+
                 rightAction.Enable();
                 break;
             }
@@ -29,6 +31,8 @@ public class RightMove : KeySlot
             {
                 rigthAction.Disable();
                 rigthAction.ApplyBindingOverride(i, "");
+                BindingList.Instance.RemoveFromList("Move Right");
+
                 rigthAction.Enable();
                 break;
             }

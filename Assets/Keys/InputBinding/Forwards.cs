@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class Forwards : KeySlot
 {
-    protected override void Binding(string keyPath)
+    protected override void Binding(string keyPath, string keyName)
     {
        
         InputAction ForwardAction = InputManager.Instance.controls.Player.Move;
@@ -14,6 +14,7 @@ public class Forwards : KeySlot
                 ForwardAction.Disable();
                 ForwardAction.ApplyBindingOverride(i, keyPath);
                 Debug.Log($"{ForwardAction.bindings[i].name} rebound to {keyPath}");
+                BindingList.Instance.AddToList( keyName + " = Forward");
                 ForwardAction.Enable();
                 break;
             }
@@ -29,6 +30,7 @@ public class Forwards : KeySlot
             if (ForwardAction.bindings[i].isPartOfComposite && ForwardAction.bindings[i].name == "up")
             {
                 ForwardAction.Disable();
+                BindingList.Instance.RemoveFromList(" = Forward");
 
                 ForwardAction.ApplyBindingOverride(i, "");
               

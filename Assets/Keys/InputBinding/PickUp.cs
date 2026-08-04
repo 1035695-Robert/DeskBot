@@ -3,15 +3,17 @@ using UnityEngine.InputSystem;
 
 public class PickUp : KeySlot
 {
-    protected override void Binding(string keyPath)
+    protected override void Binding(string keyPath, string keyName)
     {
-        InputAction LeftRotateAction = InputManager.Instance.controls.Player.PickUp;
+        InputAction pickUpAction = InputManager.Instance.controls.Player.PickUp;
 
-        LeftRotateAction.Disable();
+        pickUpAction.Disable();
 
-        LeftRotateAction.ApplyBindingOverride(0, keyPath);
+        pickUpAction.ApplyBindingOverride(0, keyPath);
+        BindingList.Instance.AddToList(keyName + " = Pickup");
 
-        LeftRotateAction.Enable();
+
+        pickUpAction.Enable();
 
     }
 
@@ -19,12 +21,13 @@ public class PickUp : KeySlot
     {
         base.OnNullifyBind();
         
-        InputAction LeftRotateAction = InputManager.Instance.controls.Player.PickUp;
+        InputAction pickupAction = InputManager.Instance.controls.Player.PickUp;
 
-        LeftRotateAction.Disable();
+        pickupAction.Disable();
 
-        LeftRotateAction.ApplyBindingOverride(0, "");
+        pickupAction.ApplyBindingOverride(0, "");
+        BindingList.Instance.RemoveFromList("Pickup");
 
-        LeftRotateAction.Enable();
+        pickupAction.Enable();
     }
 }

@@ -3,26 +3,30 @@ using UnityEngine.InputSystem;
 
 public class Throw : KeySlot
 {
-    protected override void Binding(string keyPath)
+    protected override void Binding(string keyPath, string keyName)
     {
-        InputAction RightRotateAction = InputManager.Instance.controls.Player.Throw;
+        InputAction throwAction = InputManager.Instance.controls.Player.Throw;
 
-        RightRotateAction.Disable();
+        throwAction.Disable();
 
-        RightRotateAction.ApplyBindingOverride(0, keyPath);
+        throwAction.ApplyBindingOverride(0, keyPath);
+        BindingList.Instance.RemoveFromList(keyName = " = Throw");
 
-        RightRotateAction.Enable();
+
+        throwAction.Enable();
     }
 
     public override void OnNullifyBind()
     {
         base.OnNullifyBind();
-        InputAction RightRotateAction = InputManager.Instance.controls.Player.Throw;
+        InputAction throwAction = InputManager.Instance.controls.Player.Throw;
 
-        RightRotateAction.Disable();
+        throwAction.Disable();
 
-        RightRotateAction.ApplyBindingOverride(0, "");
+        throwAction.ApplyBindingOverride(0, "");
+        BindingList.Instance.RemoveFromList(" Throw");
 
-        RightRotateAction.Enable();
+
+        throwAction.Enable();
     }
 }
