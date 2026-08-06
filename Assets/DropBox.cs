@@ -36,8 +36,6 @@ public class DropBox : MonoBehaviour
                 dropZoneCheck.onBoxPlacementEvent?.Invoke();
                 Debug.Log("Box");
             }
-            else
-                Debug.LogError($"{gameObject.name} collides with {collision.gameObject.name}");
         }
     }
     

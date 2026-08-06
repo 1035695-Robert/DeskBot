@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class DropZoneCheck : MonoBehaviour
 {
@@ -14,6 +11,7 @@ public class DropZoneCheck : MonoBehaviour
 
     [SerializeField] private GameObject[] dropBox;
     [SerializeField] int _count = 0;
+    private bool isCompleted = false;
 
     private void OnEnable()
     {
@@ -27,13 +25,23 @@ public class DropZoneCheck : MonoBehaviour
         onBoxReplacementEvent -= RemoveBox;
     }
 
-    private void UpdateBoxCount()
+    private async void UpdateBoxCount()
     {
-        _count++;
-        Debug.Log("Box detected");
-        if (_count == dropBox.Length)
+        try
         {
-            KeyGenerator.Instance.CompleteTask(spawnPoint);
+            if (isCompleted) return;
+            _count++;
+            Debug.Log("Box detected");
+
+            if (_count != dropBox.Length) return;
+            isCompleted = true;
+            EventManager.OnAudioRequestEvent?.Invoke("TaskCompleted");
+            await KeyGenerator.Instance.CompleteTask(spawnPoint);
+            gameObject.SetActive(false);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
         }
     }
 

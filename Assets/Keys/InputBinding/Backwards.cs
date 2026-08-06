@@ -13,8 +13,7 @@ public class Backwards : KeySlot
                 BackwardsAction.Disable();
                 BackwardsAction.ApplyBindingOverride(i, keyPath);
                 Debug.Log($"{BackwardsAction.bindings[i].name} rebound to {keyPath}");
-                BindingList.Instance.AddToList( keyPath + " = Backwards");
-
+                UpdateHUD(true);
                 BackwardsAction.Enable();
                 break;
             }
@@ -31,8 +30,7 @@ public class Backwards : KeySlot
             {
                 BackwardsAction.Disable();
                 BackwardsAction.ApplyBindingOverride(i, "");
-                BindingList.Instance.RemoveFromList(" = Backwards");
-
+                UpdateHUD(false);
                 BackwardsAction.Enable();
                 break;
             }

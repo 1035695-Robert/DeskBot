@@ -14,7 +14,7 @@ public class Forwards : KeySlot
                 ForwardAction.Disable();
                 ForwardAction.ApplyBindingOverride(i, keyPath);
                 Debug.Log($"{ForwardAction.bindings[i].name} rebound to {keyPath}");
-                BindingList.Instance.AddToList( keyName + " = Forward");
+                UpdateHUD(true);
                 ForwardAction.Enable();
                 break;
             }
@@ -30,8 +30,7 @@ public class Forwards : KeySlot
             if (ForwardAction.bindings[i].isPartOfComposite && ForwardAction.bindings[i].name == "up")
             {
                 ForwardAction.Disable();
-                BindingList.Instance.RemoveFromList(" = Forward");
-
+                UpdateHUD(false);
                 ForwardAction.ApplyBindingOverride(i, "");
               
                 ForwardAction.Enable();

@@ -13,8 +13,7 @@ public class RightRotate : KeySlot
                 rightRotateAction.Disable();
                 rightRotateAction.ApplyBindingOverride(i, keyPath);
                 Debug.Log($"{rightRotateAction.bindings[i].name} rebound to {keyPath}");
-                BindingList.Instance.AddToList(keyName + " = Rotate Right");
-
+                UpdateHUD(true);
                 rightRotateAction.Enable();
                 break;
             }
@@ -31,8 +30,7 @@ public class RightRotate : KeySlot
             {
                 rightRotateAction.Disable();
                 rightRotateAction.ApplyBindingOverride(i, "");
-                BindingList.Instance.RemoveFromList("Rotate Right");
-
+                UpdateHUD(false);
                 rightRotateAction.Enable();
                 break;
             }

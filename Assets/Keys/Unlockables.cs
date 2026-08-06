@@ -10,7 +10,7 @@ namespace Keys
         [Header("unlockSlot Variables")] [SerializeField]
         private bool isUnlocked;
 
-        [SerializeField] AbilityType abilityType;
+        [SerializeField] AbilityBundles abilityBundles;
         private Collider2D keySlotCollider;
         private Image keySlotImage;
         BotAbilities ability;
@@ -40,7 +40,7 @@ namespace Keys
 
         bool IsUnlocked()
         {
-            return ability.IsAbilityUnlocked(abilityType);
+            return ability.IsAbilityUnlocked(abilityBundles);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,41 +6,49 @@ using UnityEngine.UI;
 public class UnlockAblity : MonoBehaviour
 {
     private BotAbilities ability;
-    public AbilityType unlockAbilityType;
-    
+    public AbilityBundles unlockAbilityBundles;
+
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private Button unlockButton;
     [SerializeField] private TextMeshProUGUI tokenValueText;
-    
+
+    [Header("key Count")] [SerializeField] private TextMeshProUGUI keyCountText;
+    [SerializeField] private int keyCount;
+
     private void OnEnable()
     {
         EventManager.OnAbilitySelectedEvent += UpdateSelectedAbility;
+        EventManager.OnInsertKeyEvent += UpdateKeyTotal;
         unlockButton.onClick.AddListener(Unlock);
+        UpdateSelectedAbility(AbilityBundles.Null, string.Empty, 0);
     }
 
-    
-
-    private void UpdateSelectedAbility(AbilityType abilityName, string description, string abilityPrice)
+    private void UpdateKeyTotal()
     {
-      unlockAbilityType = abilityName;
-      nameText.text = unlockAbilityType.ToString();
-      descriptionText.text = description;
-      tokenValueText.text = abilityPrice.ToString() + "Keys";
-      if(!BotAbilities.Instance.CanUnlock(abilityName))
-          unlockButton.interactable = false;
-      else
-          unlockButton.interactable = true;
-      
+        keyCount++;
+        keyCountText.text = keyCount.ToString() + " Keys Obtained";
+    }
+
+
+    private void UpdateSelectedAbility(AbilityBundles abilityName, string description, int abilityPrice)
+    {
+        unlockAbilityBundles = abilityName;
+        nameText.text = unlockAbilityBundles == AbilityBundles.Null ? string.Empty : unlockAbilityBundles.ToString();
+
+        descriptionText.text = description;
+
+        tokenValueText.text = abilityPrice == 0 ? string.Empty : $"{abilityPrice} Keys";
+
+        unlockButton.interactable = BotAbilities.Instance.CanUnlock(abilityName) && abilityName != AbilityBundles.Null && keyCount >= abilityPrice;
     }
 
     private void Unlock()
     {
-            Debug.Log("Test");
-            if(unlockAbilityType != AbilityType.Null)
-            {
-                BotAbilities.Instance.TryUnlockAbility(unlockAbilityType);
-            }
-        
+        Debug.Log("Test");
+        if (unlockAbilityBundles != AbilityBundles.Null)
+        {
+            BotAbilities.Instance.TryUnlockAbility(unlockAbilityBundles);
+        }
     }
 }

@@ -10,7 +10,7 @@ public class Throw : KeySlot
         throwAction.Disable();
 
         throwAction.ApplyBindingOverride(0, keyPath);
-        BindingList.Instance.RemoveFromList(keyName = " = Throw");
+        UpdateHUD(true);
 
 
         throwAction.Enable();
@@ -24,8 +24,7 @@ public class Throw : KeySlot
         throwAction.Disable();
 
         throwAction.ApplyBindingOverride(0, "");
-        BindingList.Instance.RemoveFromList(" Throw");
-
+        UpdateHUD(false);
 
         throwAction.Enable();
     }

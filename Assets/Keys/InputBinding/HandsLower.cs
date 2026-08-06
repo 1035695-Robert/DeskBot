@@ -13,8 +13,7 @@ public class HandsLower : KeySlot
                 LowerHandAction.Disable();
                 LowerHandAction.ApplyBindingOverride(i, keyPath);
                 Debug.Log($"{LowerHandAction.bindings[i].name} rebound to {keyPath}");
-                BindingList.Instance.AddToList(keyName +" = Lower Hands");
-
+                UpdateHUD(true);
                 LowerHandAction.Enable();
                 break;
             }
@@ -31,8 +30,7 @@ public class HandsLower : KeySlot
             {
                 LowerHandAction.Disable();
                 LowerHandAction.ApplyBindingOverride(i, "");
-                BindingList.Instance.RemoveFromList(" Lower Hands");
-
+                UpdateHUD(false);
                 LowerHandAction.Enable();
                 break;
             }

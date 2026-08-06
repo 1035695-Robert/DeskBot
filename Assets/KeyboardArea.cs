@@ -29,9 +29,22 @@ public class KeyboardArea : MonoBehaviour
 
     private void UiSwitch(bool state)
     {
-        foreach (var ui in screenUi)
+        if (!state)
         {
-            ui.SetActive(state);
+            foreach (var ui in screenUi)
+            {
+                ui.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (var ui in screenUi)
+            {
+                if (ui.name != "=== Unlockables ===")
+                {
+                    ui.SetActive(true);
+                }
+            }
         }
     }
 }

@@ -10,8 +10,7 @@ public class PickUp : KeySlot
         pickUpAction.Disable();
 
         pickUpAction.ApplyBindingOverride(0, keyPath);
-        BindingList.Instance.AddToList(keyName + " = Pickup");
-
+        UpdateHUD(true);
 
         pickUpAction.Enable();
 
@@ -26,8 +25,7 @@ public class PickUp : KeySlot
         pickupAction.Disable();
 
         pickupAction.ApplyBindingOverride(0, "");
-        BindingList.Instance.RemoveFromList("Pickup");
-
+        UpdateHUD(false);
         pickupAction.Enable();
     }
 }

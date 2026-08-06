@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class KeyGenerator : MonoBehaviour
 {
-    public Dictionary<string, GameObject> keyDictionary = new Dictionary<string, GameObject>();
+    private Dictionary<string, GameObject> keyDictionary = new Dictionary<string, GameObject>();
     public GameObject inventory;
     public List<string> keyList;
     public GameObject keyPrefab;
@@ -80,14 +82,27 @@ public class KeyGenerator : MonoBehaviour
         GameObject newKey = Instantiate(key, inventory.transform);
         newKey.name = key.name.Replace("(Clone)", "");
         keyDictionary.Remove(randomValue);
+        EventManager.OnInsertKeyEvent?.Invoke();
         Debug.Log(randomValue);
         keyList.Remove(randomValue);
     }
 
-    public void CompleteTask(Transform keySpawnPointFromTask)
+    public Task CompleteTask(Transform keySpawnPointFromTask)
     {
-        string randomValue = RandomValue();
-        GameObject newPhysicalKey = Instantiate(keyPrefab, keySpawnPointFromTask);
-        newPhysicalKey.name = randomValue;
+        try
+        {
+            string randomValue = RandomValue();
+            Debug.Log(randomValue);
+            GameObject newPhysicalKey = Instantiate(keyPrefab, keySpawnPointFromTask.transform.position,Quaternion.identity);
+            newPhysicalKey.name = randomValue;
+            TextMeshPro displayName = newPhysicalKey.GetComponentInChildren<TextMeshPro>();
+            if (displayName == null) Debug.LogError("missing");
+            displayName.text = newPhysicalKey.name;
+            return Task.CompletedTask;
+        }
+        catch (Exception exception)
+        {
+            return Task.FromException(exception);
+        }
     }
 }

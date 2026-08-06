@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class AbilitySelection : MonoBehaviour
 {
-    public AbilityType abilityName;
+    public AbilityBundles abilityName;
     [TextArea(3, 10)] public string abilityDescription;
     [SerializeField] Button selectAbilityButton;
     [SerializeField] private int abilityPrice;
@@ -15,7 +15,7 @@ public class AbilitySelection : MonoBehaviour
     
     private void OnSelected()
     {
-      EventManager.OnAbilitySelectedEvent?.Invoke(abilityName, abilityDescription, abilityPrice.ToString());
+      EventManager.OnAbilitySelectedEvent?.Invoke(abilityName, abilityDescription, abilityPrice);
     }
 
     private void OnDisable()

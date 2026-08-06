@@ -2,15 +2,30 @@ using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-
+public enum AbilityList
+{
+    Forwards,
+    Backwards,
+    RotateLeft,
+    RotateRight,
+    Left,
+    Right,
+    RaiseHands,
+    LowerHands,
+    Horn,
+    GrabDrop,
+    Throw
+}
 public abstract class KeySlot : MonoBehaviour, IKeyDropSlot
 {
     [Header("KeyBinding variables")] [SerializeField]
     string bindedKey;
-
+    
     [SerializeField] private GameObject currentKey;
     [SerializeField] private GameObject previousKey;
-
+    [SerializeField] private AbilityList ability;
+    private string currentKeyName;
+    
     public void OnKeyDrop(KeyDrag key, string keyName)
     {
         key.transform.position = transform.position;
@@ -28,12 +43,20 @@ public abstract class KeySlot : MonoBehaviour, IKeyDropSlot
             removeKey.OnKeyRemoval(previousKey);
             previousKey = null;
         }
-
-        keyName.TrimEnd();
+        
+        currentKeyName = keyName.TrimEnd();
         string keyPath = $"<keyboard>/{keyName.ToLower()}";
-        Binding(keyPath, keyName);
+        Binding(keyPath, currentKeyName);
     }
 
+    protected void UpdateHUD(bool state)
+    {
+        if(state)
+            BindingList.Instance.AddToList(currentKeyName, ability);
+        else
+            BindingList.Instance.RemoveFromList(ability);
+    }
+    
 
     protected abstract void Binding(string keyPath, string keyName);
 

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AbilityType
+public enum AbilityBundles
 {
     Null,
     BaseControls,
@@ -26,12 +26,12 @@ public class BotAbilities
         }
     }
 
-    private List<AbilityType> unlockedAbilityTypeList = new List<AbilityType>
+    private List<AbilityBundles> unlockedAbilityTypeList = new List<AbilityBundles>
     {
-       AbilityType.BaseControls
+       AbilityBundles.BaseControls
     };
 
-    private void UnlockAbility(AbilityType ability)
+    private void UnlockAbility(AbilityBundles ability)
     {
         if (!IsAbilityUnlocked(ability))
         {
@@ -47,17 +47,17 @@ public class BotAbilities
         }
     }
 
-    private string[] SelectAbilityInBundle(AbilityType ability)
+    private string[] SelectAbilityInBundle(AbilityBundles ability)
     {
         List<string> abilityList = new List<string>();
         switch (ability)
         {
-            case AbilityType.MovementUpgrade:
+            case AbilityBundles.MovementUpgrade:
                 abilityList.Add("Backwards");
                 abilityList.Add("MoveLeft");
                 abilityList.Add("MoveRight");
                 return abilityList.ToArray();
-            case AbilityType.HandsUpgrade:
+            case AbilityBundles.HandsUpgrade:
                 abilityList.Add("RaiseHands");
                 abilityList.Add("LowerHands");
                 abilityList.Add("Throw");
@@ -66,23 +66,23 @@ public class BotAbilities
         return abilityList.ToArray();
     }
 
-    public bool IsAbilityUnlocked(AbilityType ability)
+    public bool IsAbilityUnlocked(AbilityBundles ability)
     {
         return unlockedAbilityTypeList.Contains(ability);
     }
 
-    private AbilityType Requirement(AbilityType ability)
+    private AbilityBundles Requirement(AbilityBundles ability)
     {
         switch (ability)
         {
-            case AbilityType.MovementUpgrade: return AbilityType.HandsUpgrade;
-            case AbilityType.HandsUpgrade: return AbilityType.BaseControls;
+            case AbilityBundles.MovementUpgrade: return AbilityBundles.HandsUpgrade;
+            case AbilityBundles.HandsUpgrade: return AbilityBundles.BaseControls;
         }
         
-        return AbilityType.Null;
+        return AbilityBundles.Null;
     }
 
-    public void TryUnlockAbility(AbilityType ability)
+    public void TryUnlockAbility(AbilityBundles ability)
     {
         if (CanUnlock(ability))
         {
@@ -90,10 +90,10 @@ public class BotAbilities
         }
     }
 
-    public bool CanUnlock(AbilityType ability)
+    public bool CanUnlock(AbilityBundles ability)
     {
-        AbilityType abilityRequirement = Requirement(ability);
-        if (abilityRequirement != AbilityType.Null)
+        AbilityBundles abilityRequirement = Requirement(ability);
+        if (abilityRequirement != AbilityBundles.Null)
         {
             if (!IsAbilityUnlocked(abilityRequirement))
             {

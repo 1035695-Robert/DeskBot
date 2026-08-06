@@ -102,6 +102,10 @@ public class PlayerInput : MonoBehaviour
         if (Physics.Raycast(hands.transform.position, hands.transform.forward, out RaycastHit hit, rayDistance,
                 pickupLayer))
         {
+            if (hit.transform.CompareTag("Keys"))
+            {
+                EventManager.OnHoldingKeyEvent?.Invoke();
+            }
             Debug.Log("Hit");
             pickupJoint = hands.AddComponent<FixedJoint>();
             pickupObject = hit.rigidbody;

@@ -13,8 +13,7 @@ public class LeftMove : KeySlot
                 leftAction.Disable();
                 leftAction.ApplyBindingOverride(i, keyPath);
                 Debug.Log($"{leftAction.bindings[i].name} rebound to {keyPath}");
-                BindingList.Instance.AddToList(keyName + " = Left Movement");
-
+                UpdateHUD(true);
                 leftAction.Enable();
                 break;
             }
@@ -31,8 +30,7 @@ public class LeftMove : KeySlot
             {
                 leftAction.Disable();
                 leftAction.ApplyBindingOverride(i, "");
-                BindingList.Instance.RemoveFromList("Left Movement");
-
+                UpdateHUD(false);
                 leftAction.Enable();
                 break;
             }

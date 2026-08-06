@@ -10,9 +10,7 @@ public class Horn : KeySlot
         hornAction.Disable();
 
         hornAction.ApplyBindingOverride(0, keyPath);
-        BindingList.Instance.AddToList(keyName + " = Horn");
-
-
+        UpdateHUD(true);
         hornAction.Enable();
     }
 
@@ -22,11 +20,9 @@ public class Horn : KeySlot
         InputAction hornAction = InputManager.Instance.controls.Player.Horn;
 
         hornAction.Disable();
-
+        UpdateHUD(false);
         hornAction.ApplyBindingOverride(0, "");
-        BindingList.Instance.RemoveFromList(" = Horn");
-
-
+        
         hornAction.Enable();
     }
 }

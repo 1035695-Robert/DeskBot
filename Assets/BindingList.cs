@@ -6,9 +6,12 @@ using UnityEngine;
 
 public class BindingList : MonoBehaviour
 {
-   [SerializeField] private TextMeshProUGUI keyReferenceText;
-    [SerializeField] List<string> keyRefrenceList = new List<string>();
+    [SerializeField] private TextMeshProUGUI keyReferenceText;
+    [SerializeField] List<string> keyReferenceList = new List<string>();
 
+    private Dictionary<AbilityList, string> keyDictionary = new Dictionary<AbilityList, string>();
+
+    //private AbilityList abilities;
     public static BindingList Instance;
 
     private void Awake()
@@ -26,19 +29,34 @@ public class BindingList : MonoBehaviour
 
     void Start()
     {
-        keyRefrenceList.Clear();
+        keyReferenceList.Clear();
+        foreach (AbilityList ability in Enum.GetValues(typeof(AbilityList)))
+        {
+            keyDictionary.Add(ability, null);
+        }
     }
 
-    public void AddToList(string newKeyAbility)
+    public void AddToList(string keyName, AbilityList ability)
     {
-        keyRefrenceList.Add(newKeyAbility);
-        keyReferenceText.text = string.Join("\n", keyRefrenceList);
+        if (keyDictionary.ContainsKey(ability))
+        {
+            keyDictionary[ability] = keyName;
+            UpdateText();
+        }
+    }
+    // DICTIONARY =<TKeys, TValues>
+    //  keyDictionary Keys: Ability, Value: keyName.
+
+    public void RemoveFromList(AbilityList ability)
+    {
+        keyDictionary[ability] = null;
+        UpdateText();
     }
 
-    public void RemoveFromList(string searchAbility)
+    private void UpdateText()
     {
-       string keyMatch = keyRefrenceList.Find(key => key.Contains(searchAbility));
-        keyRefrenceList.Remove(keyMatch);
-        keyReferenceText.text = string.Join("\n", keyRefrenceList);
+        keyReferenceText.text = string.Join("\n", keyDictionary
+            .Where(key => key.Value != null)
+            .Select(key => $"{key.Key}<pos=150> : <pos=200>{key.Value}"));
     }
 }

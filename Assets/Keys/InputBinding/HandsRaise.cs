@@ -13,8 +13,7 @@ public class HandsRaise : KeySlot
                 RaiseHandAction.Disable();
                 RaiseHandAction.ApplyBindingOverride(i, keyPath);
                 Debug.Log($"{RaiseHandAction.bindings[i].name} rebound to {keyPath}");
-                BindingList.Instance.AddToList(keyName +" + Raise Hands");
-
+                UpdateHUD(true);
                 RaiseHandAction.Enable();
                 break;
             }
@@ -31,8 +30,7 @@ public class HandsRaise : KeySlot
             {
                 RaiseHandAction.Disable();
                 RaiseHandAction.ApplyBindingOverride(i, "");
-                BindingList.Instance.RemoveFromList("Raise Hands");
-
+                UpdateHUD(false);
                 RaiseHandAction.Enable();
                 break;
             }
