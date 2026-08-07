@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = System.Random;
 
 public class DropZoneCheck : MonoBehaviour
 {
@@ -7,16 +8,49 @@ public class DropZoneCheck : MonoBehaviour
 
     public OnBoxPlacement onBoxPlacementEvent;
     public OnBoxPlacement onBoxReplacementEvent;
-    [SerializeField] private Transform spawnPoint;
-
+    [SerializeField] private Transform keySpawnPoint;
+    [SerializeField] private float spawnLength;
     [SerializeField] private GameObject[] dropBox;
+    [SerializeField] private Transform spawnPoints;
     [SerializeField] int _count = 0;
-    private bool isCompleted = false;
+    [SerializeField] private bool isCompleted = false;
+    private float spacing;
 
     private void OnEnable()
     {
         onBoxPlacementEvent += UpdateBoxCount;
         onBoxReplacementEvent += RemoveBox;
+        EventManager.OnInsertKeyEvent += ResetPuzzle;
+        ResetPuzzle();
+    }
+
+    void Start()
+    {
+        spacing = spawnLength / (dropBox.Length - 1);
+        ResetPuzzle();
+    }
+
+    private void ResetPuzzle()
+    {
+        _count = 0;
+        foreach (Transform child in gameObject.transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+
+        for (int i = 0; i < dropBox.Length; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, i + 1);
+
+            (dropBox[i], dropBox[randomIndex]) = (dropBox[randomIndex], dropBox[i]);
+        }
+
+        for(int i = 0 ; i < dropBox.Length; i++)
+        {
+            Vector3 spawnPosition = spawnPoints.position + new Vector3( i * spacing, 0, 0);
+            dropBox[i].transform.position = spawnPosition;
+        }
+        isCompleted = false;
     }
 
     private void OnDisable()
@@ -36,12 +70,17 @@ public class DropZoneCheck : MonoBehaviour
             if (_count != dropBox.Length) return;
             isCompleted = true;
             EventManager.OnAudioRequestEvent?.Invoke("TaskCompleted");
-            await KeyGenerator.Instance.CompleteTask(spawnPoint);
-            gameObject.SetActive(false);
+            await KeyGenerator.Instance.CompleteTask(keySpawnPoint);
         }
         catch (Exception e)
         {
             Debug.Log(e);
+            throw;
+        }
+
+        foreach (Transform child in gameObject.transform)
+        {
+            child.gameObject.SetActive(false);
         }
     }
 

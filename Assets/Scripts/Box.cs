@@ -13,6 +13,11 @@ public class Box : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    private void OnEnable()
+    {
+        ResetBox();
+    }
+
     public void ResetBox()
     {
         transform.position = startPosition;

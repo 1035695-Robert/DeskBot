@@ -20,4 +20,7 @@ public class EventManager
 
     public delegate void OnInsertKey();
     public static OnInsertKey OnInsertKeyEvent;
+    
+    public delegate void OnMysteryBundle();
+    public static OnMysteryBundle OnMysteryBundleEvent;
 }

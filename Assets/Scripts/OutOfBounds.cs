@@ -9,7 +9,7 @@ public class OutOfBounds : MonoBehaviour
     {
         if (collision.transform.CompareTag("Player"))
         {
-            collision.transform.position = Vector3.zero;
+            collision.transform.position = Vector3.up;
         }
         else if (collision.transform.CompareTag("Box"))
             {

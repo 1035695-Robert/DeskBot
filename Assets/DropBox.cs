@@ -3,15 +3,17 @@ using UnityEngine;
 
 public class DropBox : MonoBehaviour
 {
-   [SerializeField] DropZoneCheck dropZoneCheck;
+    [SerializeField] DropZoneCheck dropZoneCheck;
 
     [SerializeField] HitColour hitColour;
     Renderer targetRenderer;
 
-    private void Start()
+    private void OnEnable()
     {
-        dropZoneCheck = transform.root.GetComponent<DropZoneCheck>();
-        targetRenderer = transform.GetComponentInChildren<Renderer>();
+        if (dropZoneCheck == null)
+            dropZoneCheck = transform.root.GetComponent<DropZoneCheck>();
+        if (targetRenderer == null)
+            targetRenderer = transform.GetComponentInChildren<Renderer>();
         switch (hitColour)
         {
             case HitColour.Blue:
@@ -38,7 +40,7 @@ public class DropBox : MonoBehaviour
             }
         }
     }
-    
+
     private void OnCollisionExit(Collision collision)
     {
         Box box = collision.transform.GetComponent<Box>();

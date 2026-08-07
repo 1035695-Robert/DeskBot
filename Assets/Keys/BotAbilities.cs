@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public enum AbilityBundles
 {
@@ -7,6 +8,7 @@ public enum AbilityBundles
     BaseControls,
     MovementUpgrade,
     HandsUpgrade,
+    Mystery
 }
 
 public class BotAbilities
@@ -15,7 +17,6 @@ public class BotAbilities
     // public static OnUnlockAbility onUnlockAbility;
     
     private static BotAbilities _instance;
-
     public static BotAbilities Instance
     {
         get
@@ -35,10 +36,17 @@ public class BotAbilities
     {
         if (!IsAbilityUnlocked(ability))
         {
+            if (ability == AbilityBundles.Mystery)
+            {
+                Debug.Log("mysteryunlock");
+                EventManager.OnMysteryBundleEvent?.Invoke();
+                return;
+            }
             unlockedAbilityTypeList.Add(ability);
             string[] ablilityArray = SelectAbilityInBundle(ability);
             foreach (string abilityName in ablilityArray)
             {
+                
                 if (GameObject.Find(abilityName).TryGetComponent(out IUnlockAbility abilityUnlock))
                     abilityUnlock.OnUnlockAbility();
                 else
@@ -75,8 +83,9 @@ public class BotAbilities
     {
         switch (ability)
         {
-            case AbilityBundles.MovementUpgrade: return AbilityBundles.HandsUpgrade;
             case AbilityBundles.HandsUpgrade: return AbilityBundles.BaseControls;
+            case AbilityBundles.MovementUpgrade: return AbilityBundles.HandsUpgrade;
+            case  AbilityBundles.Mystery: return AbilityBundles.MovementUpgrade;
         }
         
         return AbilityBundles.Null;

@@ -13,20 +13,30 @@ public class UnlockAblity : MonoBehaviour
     [SerializeField] private Button unlockButton;
     [SerializeField] private TextMeshProUGUI tokenValueText;
 
-    [Header("key Count")] [SerializeField] private TextMeshProUGUI keyCountText;
+    [SerializeField] private Renderer botColour;
+
+[Header("key Count")] [SerializeField] private TextMeshProUGUI keyCountText;
     [SerializeField] private int keyCount;
 
     private void OnEnable()
     {
         EventManager.OnAbilitySelectedEvent += UpdateSelectedAbility;
-        EventManager.OnInsertKeyEvent += UpdateKeyTotal;
         unlockButton.onClick.AddListener(Unlock);
         UpdateSelectedAbility(AbilityBundles.Null, string.Empty, 0);
+        EventManager.OnMysteryBundleEvent += Mystery;
+        UpdateKeyTotal();
+    }
+
+    private void OnDisable()
+    {
+        EventManager.OnAbilitySelectedEvent -= UpdateSelectedAbility;
+        unlockButton.onClick.RemoveListener(Unlock);
+        EventManager.OnMysteryBundleEvent -= Mystery;
     }
 
     private void UpdateKeyTotal()
     {
-        keyCount++;
+        keyCount = KeyGenerator.Instance.keyCount;
         keyCountText.text = keyCount.ToString() + " Keys Obtained";
     }
 
@@ -50,5 +60,11 @@ public class UnlockAblity : MonoBehaviour
         {
             BotAbilities.Instance.TryUnlockAbility(unlockAbilityBundles);
         }
+    }
+
+    private void Mystery()
+    {
+        Debug.Log("Mystery");
+        botColour.material.color = Color.blue;
     }
 }

@@ -13,7 +13,7 @@ public class KeyGenerator : MonoBehaviour
     public List<string> keyList;
     public GameObject keyPrefab;
     [SerializeField] private int startAmount;
-
+    public int keyCount;
     public static KeyGenerator Instance;
 
     private void Awake()
@@ -63,7 +63,7 @@ public class KeyGenerator : MonoBehaviour
     private string RandomValue()
     {
         if (keyDictionary.Count == 0) return null;
-
+        
         int randomIndex = Random.Range(0, keyDictionary.Count);
         string randomKey = keyList[randomIndex];
         return keyDictionary[randomKey].name;
@@ -82,6 +82,7 @@ public class KeyGenerator : MonoBehaviour
         GameObject newKey = Instantiate(key, inventory.transform);
         newKey.name = key.name.Replace("(Clone)", "");
         keyDictionary.Remove(randomValue);
+        keyCount++;
         EventManager.OnInsertKeyEvent?.Invoke();
         Debug.Log(randomValue);
         keyList.Remove(randomValue);
